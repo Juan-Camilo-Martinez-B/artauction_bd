@@ -2,15 +2,83 @@ name: ci
 
 on:
   push:
-    branches: [main]
   pull_request:
 
 jobs:
-  verify:
-    name: verify
+  postgres:
+    name: postgres migrations
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: artauction
+          POSTGRES_PASSWORD: artauction
+          POSTGRES_DB: artauction
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U artauction -d artauction"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      DATABASE_URL: postgresql://artauction:artauction@localhost:5432/artauction
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # TODO(fase-1): levantar Postgres efímero y validar `prisma migrate deploy`.
+      - name: Install psql
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Apply migrations
+        run: bash scripts/migrate/apply.sh
+
+      - name: Apply migrations again
+        run: bash scripts/migrate/apply.sh
+
+      - name: Assert bid invariants
+        run: bash scripts/migrate/assert.sh
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Validate Prisma schema
+        run: npm ci && npm run prisma:validate
+
+  mongo:
+    name: mongo indexes
+    runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo:7
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --quiet --eval 'db.runCommand({ ping: 1 }).ok'"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      MONGODB_URI: mongodb://localhost:27017/artauction
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create indexes
+        run: npm run indexes:mongo
+
+      - name: Load mongo samples
+        run: node scripts/seed/mongo-samples.mjs

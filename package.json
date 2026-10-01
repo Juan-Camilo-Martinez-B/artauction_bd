@@ -1,7 +1,7 @@
 {
   "name": "@artauction/database",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Esquemas versionados de Postgres y MongoDB para ArtAuction AI.",
   "type": "module",
   "engines": {
@@ -9,7 +9,11 @@
   },
   "scripts": {
     "prisma:validate": "prisma validate --schema postgres/prisma/schema.prisma",
-    "indexes:mongo": "node mongo/indexes/apply.mjs"
+    "indexes:mongo": "node mongo/indexes/apply.mjs",
+    "seed": "node scripts/seed/run.mjs",
+    "backup:postgres": "bash scripts/backup/postgres.sh",
+    "backup:mongo": "bash scripts/backup/mongo.sh",
+    "migrate": "bash scripts/migrate/apply.sh"
   },
   "dependencies": {
     "@prisma/client": "^6.16.3",
