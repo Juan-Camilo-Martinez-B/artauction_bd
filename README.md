@@ -44,12 +44,26 @@ Los tags `v0.1.0`, `v0.2.0`, … marcan esquemas que el backend puede fijar.
 
 ## Imagen
 
-El `Dockerfile` aplica migraciones ya generadas (`prisma migrate deploy`). Sirve para un Cloud Run Job. No genera migraciones nuevas dentro de la imagen.
+El `Dockerfile` aplica `scripts/migrate/apply.sh` con el cliente de Postgres. Sirve para un Cloud Run Job. No genera migraciones nuevas dentro de la imagen. Los índices de Mongo se crean con `npm run indexes:mongo`, fuera de esa imagen.
 
 ## CI
 
-El workflow de `.github/workflows/ci.yml` reservará un Postgres efímero para comprobar que las migraciones aplican limpias. Ese paso se completa en la fase de base de datos.
+El workflow de `.github/workflows/ci.yml` aplica las migraciones dos veces sobre Postgres 16, comprueba que el precio no retrocede y crea los índices en Mongo 7.
+
+## Uso local
+
+```bash
+export DATABASE_URL=postgresql://artauction:artauction@localhost:5432/artauction
+export MONGODB_URI=mongodb://localhost:27017/artauction
+npm run migrate
+npm run seed
+npm run indexes:mongo
+```
+
+La semilla SQL crea cuatro cuentas con la contraseña local `DevPassword!234`. No sirve en producción.
+
+`npm run backup:postgres` y `npm run backup:mongo` escriben en `BACKUP_DIR` (por defecto `./backups`), que no se versiona.
 
 ## Estado
 
-Fase 0: andamiaje. Tablas, colecciones, semillas, diagrama y tags llegan en la fase de base de datos.
+Tag `v0.2.0`: esquema relacional, colecciones Mongo, semillas, respaldos y CI. El backend fija este tag o uno posterior.

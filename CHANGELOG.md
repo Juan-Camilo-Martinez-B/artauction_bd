@@ -6,6 +6,17 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-09-30
+
+### Added
+
+- Colecciones `audit_reports`, `gallery_items`, `activity_feed` y `event_logs`, con sus índices.
+- Semillas locales de usuarios, obras y subastas, y documentos Mongo alineados por UUID.
+- Scripts de respaldo de Postgres y MongoDB.
+- Runner idempotente de migraciones SQL y comprobación de que el precio de la subasta no retrocede.
+- Diagrama del modelo y guía de migraciones expand/contract.
+- CI con Postgres y Mongo efímeros.
+
 ## [0.1.0] - 2026-09-30
 
 ### Added
