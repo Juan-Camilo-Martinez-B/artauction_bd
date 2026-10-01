@@ -1,0 +1,4 @@
+node_modules
+backups
+postgres/prisma/generated
+package-lock.json
