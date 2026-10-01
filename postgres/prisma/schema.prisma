@@ -57,6 +57,9 @@ model Lot {
   auditSummaries AuditSummary[]
 
 
+  @@index([sellerId], map: "lots_seller_id_idx")
+  @@index([status], map: "lots_status_idx")
+
   @@map("lots")
 }
 model LotImage {
@@ -70,6 +73,8 @@ model LotImage {
   createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
 
   lot Lot @relation(fields: [lotId], references: [id], onDelete: Cascade)
+
+  @@index([lotId], map: "lot_images_lot_id_idx")
 
   @@unique([lotId, position])
   @@map("lot_images")
@@ -112,6 +117,9 @@ model Bid {
   wonAuction Auction? @relation("WinningBid")
 
 
+  @@index([auctionId, createdAt(sort: Desc)], map: "bids_auction_id_created_at_idx")
+  @@index([bidderId], map: "bids_bidder_id_idx")
+
   @@map("bids")
 }
 model Transaction {
@@ -131,6 +139,9 @@ model Transaction {
   seller  User    @relation("TransactionSeller", fields: [sellerId], references: [id], onDelete: Restrict)
 
 
+  @@index([buyerId], map: "transactions_buyer_id_idx")
+  @@index([sellerId], map: "transactions_seller_id_idx")
+
   @@map("transactions")
 }
 model AuditSummary {
@@ -148,6 +159,8 @@ model AuditSummary {
 
   lot Lot @relation(fields: [lotId], references: [id], onDelete: Restrict)
 
+  @@index([lotId, createdAt(sort: Desc)], map: "audit_summaries_lot_id_created_at_idx")
+
   @@map("audit_summaries")
 }
 model Follow {
@@ -157,6 +170,8 @@ model Follow {
 
   follower User @relation("Follows", fields: [followerId], references: [id], onDelete: Cascade)
   followee User @relation("FollowedBy", fields: [followeeId], references: [id], onDelete: Cascade)
+
+  @@index([followeeId], map: "follows_followee_id_idx")
 
   @@id([followerId, followeeId])
   @@map("follows")
