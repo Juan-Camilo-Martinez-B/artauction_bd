@@ -2,9 +2,11 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import mongoose from 'mongoose';
 import { auditReportIndexSpecs } from './audit-reports.mjs';
+import { galleryItemIndexSpecs } from './gallery-items.mjs';
 
 const groups = [
   ['audit_reports', auditReportIndexSpecs],
+  ['gallery_items', galleryItemIndexSpecs],
 ];
 
 export async function applyIndexes(uri) {
