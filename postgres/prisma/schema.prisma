@@ -20,6 +20,7 @@ model User {
   updatedAt         DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   lots Lot[]
+  wonAuctions Auction[] @relation("AuctionWinner")
 
   @@map("users")
 }
@@ -46,6 +47,7 @@ model Lot {
 
   seller User @relation(fields: [sellerId], references: [id], onDelete: Restrict)
   images LotImage[]
+  auction Auction?
 
 
   @@map("lots")
@@ -64,4 +66,26 @@ model LotImage {
 
   @@unique([lotId, position])
   @@map("lot_images")
+}
+model Auction {
+  id             String   @id @default(uuid()) @db.Uuid
+  lotId          String   @unique @map("lot_id") @db.Uuid
+  startPrice     Decimal  @map("start_price") @db.Decimal(12, 2)
+  currentPrice   Decimal  @map("current_price") @db.Decimal(12, 2)
+  minIncrement   Decimal  @map("min_increment") @db.Decimal(12, 2)
+  currency       String   @default("USD") @db.Char(3)
+  startsAt       DateTime @map("starts_at") @db.Timestamptz(6)
+  endsAt         DateTime @map("ends_at") @db.Timestamptz(6)
+  initialEndsAt  DateTime @map("initial_ends_at") @db.Timestamptz(6)
+  status         String   @default("PROGRAMADA")
+  winnerId       String?  @map("winner_id") @db.Uuid
+  winningBidId   String?  @map("winning_bid_id") @db.Uuid
+  extensionCount Int      @default(0) @map("extension_count")
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  lot    Lot   @relation(fields: [lotId], references: [id], onDelete: Restrict)
+  winner User? @relation("AuctionWinner", fields: [winnerId], references: [id], onDelete: Restrict)
+
+  @@map("auctions")
 }
