@@ -52,6 +52,7 @@ model Lot {
   images LotImage[]
   auction Auction?
   transactions Transaction[]
+  auditSummaries AuditSummary[]
 
 
   @@map("lots")
@@ -129,4 +130,21 @@ model Transaction {
 
 
   @@map("transactions")
+}
+model AuditSummary {
+  id                       String   @id @default(uuid()) @db.Uuid
+  lotId                    String   @map("lot_id") @db.Uuid
+  score                    Int      @db.SmallInt
+  priceMin                 Decimal  @map("price_min") @db.Decimal(12, 2)
+  priceMax                 Decimal  @map("price_max") @db.Decimal(12, 2)
+  verdict                  String
+  hasCriticalInconsistency Boolean  @default(false) @map("has_critical_inconsistency")
+  mongoReportId            String   @map("mongo_report_id")
+  modelName                String   @map("model_name")
+  promptVersion            String   @map("prompt_version")
+  createdAt                DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  lot Lot @relation(fields: [lotId], references: [id], onDelete: Restrict)
+
+  @@map("audit_summaries")
 }
