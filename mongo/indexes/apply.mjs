@@ -1,14 +1,16 @@
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import mongoose from 'mongoose';
-import { auditReportIndexSpecs } from './audit-reports.mjs';
-import { galleryItemIndexSpecs } from './gallery-items.mjs';
 import { activityFeedIndexSpecs } from './activity-feed.mjs';
+import { auditReportIndexSpecs } from './audit-reports.mjs';
+import { eventLogIndexSpecs } from './event-logs.mjs';
+import { galleryItemIndexSpecs } from './gallery-items.mjs';
 
 const groups = [
   ['audit_reports', auditReportIndexSpecs],
   ['gallery_items', galleryItemIndexSpecs],
   ['activity_feed', activityFeedIndexSpecs],
+  ['event_logs', eventLogIndexSpecs],
 ];
 
 export async function applyIndexes(uri) {
