@@ -1,0 +1,35 @@
+# Dependencias de los scripts de migración y semilla
+node_modules/
+.pnp
+.pnp.js
+
+# Entorno. El ejemplo sí se versiona.
+.env
+.env.*
+!.env.example
+
+# Volcados locales. Las migraciones SQL versionadas no se ignoran.
+*.dump
+*.sql.gz
+*.archive
+backups/
+
+# Cliente Prisma generado
+postgres/prisma/generated/
+
+# Registros
+npm-debug.log*
+*.log
+
+# Editores y sistema
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+*.swo
+
+# Cachés locales
+.eslintcache
+*.local
