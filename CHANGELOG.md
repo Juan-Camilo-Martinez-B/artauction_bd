@@ -6,6 +6,13 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-09-30
+
 ### Added
 
-- Estructura del repositorio de esquemas: Postgres (Prisma, migraciones, semillas), Mongo (esquemas e índices), scripts de respaldo y semilla, y documentación del modelo.
+- Estructura del repositorio de esquemas versionados.
+- Tablas `users`, `lots`, `lot_images`, `auctions`, `bids`, `transactions`, `audit_summaries` y `follows`.
+- Índice único de `bids.idempotency_key` y enlace de la puja ganadora.
+- Índices de catálogo público, cierre de subastas activas y seguidores.
+- Restricciones de dinero, puntuación de autenticidad y seguimiento.
+- Trigger que impide que `current_price` o `ends_at` retrocedan.
