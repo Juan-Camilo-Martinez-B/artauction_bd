@@ -19,5 +19,33 @@ model User {
   createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt         DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
 
+  lots Lot[]
+
   @@map("users")
+}
+model Lot {
+  id                String   @id @default(uuid()) @db.Uuid
+  sellerId          String   @map("seller_id") @db.Uuid
+  title             String
+  description       String
+  artistName        String?  @map("artist_name")
+  creationYear      Int?     @map("creation_year")
+  materials         String
+  widthCm           Decimal? @map("width_cm") @db.Decimal(8, 2)
+  heightCm          Decimal? @map("height_cm") @db.Decimal(8, 2)
+  depthCm           Decimal? @map("depth_cm") @db.Decimal(8, 2)
+  provenance        String?
+  status            String   @default("BORRADOR")
+  visibility        String   @default("PRIVATE")
+  authenticityScore Int?     @map("authenticity_score") @db.SmallInt
+  suggestedPriceMin Decimal? @map("suggested_price_min") @db.Decimal(12, 2)
+  suggestedPriceMax Decimal? @map("suggested_price_max") @db.Decimal(12, 2)
+  currency          String   @default("USD") @db.Char(3)
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  seller User @relation(fields: [sellerId], references: [id], onDelete: Restrict)
+
+
+  @@map("lots")
 }
