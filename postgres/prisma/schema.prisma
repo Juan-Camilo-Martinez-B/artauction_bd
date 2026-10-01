@@ -24,6 +24,8 @@ model User {
   bids Bid[]
   purchases Transaction[] @relation("TransactionBuyer")
   sales     Transaction[] @relation("TransactionSeller")
+  following Follow[] @relation("Follows")
+  followers Follow[] @relation("FollowedBy")
 
   @@map("users")
 }
@@ -147,4 +149,15 @@ model AuditSummary {
   lot Lot @relation(fields: [lotId], references: [id], onDelete: Restrict)
 
   @@map("audit_summaries")
+}
+model Follow {
+  followerId String   @map("follower_id") @db.Uuid
+  followeeId String   @map("followee_id") @db.Uuid
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  follower User @relation("Follows", fields: [followerId], references: [id], onDelete: Cascade)
+  followee User @relation("FollowedBy", fields: [followeeId], references: [id], onDelete: Cascade)
+
+  @@id([followerId, followeeId])
+  @@map("follows")
 }
