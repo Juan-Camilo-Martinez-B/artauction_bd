@@ -10,7 +10,9 @@
   "scripts": {
     "prisma:validate": "prisma validate --schema postgres/prisma/schema.prisma",
     "indexes:mongo": "node mongo/indexes/apply.mjs",
-    "seed": "node scripts/seed/run.mjs"
+    "seed": "node scripts/seed/run.mjs",
+    "backup:postgres": "bash scripts/backup/postgres.sh",
+    "backup:mongo": "bash scripts/backup/mongo.sh"
   },
   "dependencies": {
     "@prisma/client": "^6.16.3",
