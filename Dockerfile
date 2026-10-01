@@ -1,19 +1,15 @@
 # syntax=docker/dockerfile:1
 
-# Imagen de un solo uso: aplica migraciones Postgres ya generadas.
-# No crea migraciones nuevas. Pensada para un Cloud Run Job, no para un servicio.
-# El esquema de Mongo se aplica con los scripts de este repositorio, fuera de esta imagen.
+# Imagen de un solo uso: aplica las migraciones SQL ya versionadas.
+# Pensada para un Cloud Run Job. No genera migraciones nuevas.
 
-FROM node:24-alpine AS deps
-WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci
+FROM node:24-alpine
 
-FROM node:24-alpine AS runner
+RUN apk add --no-cache postgresql-client bash
+
 WORKDIR /app
-ENV NODE_ENV=production
-COPY --from=deps /app/node_modules ./node_modules
-COPY package.json ./package.json
-COPY postgres ./postgres
+COPY postgres/migrations ./postgres/migrations
+COPY scripts/migrate/apply.sh ./scripts/migrate/apply.sh
+
 USER node
-CMD ["npx", "prisma", "migrate", "deploy", "--schema", "postgres/prisma/schema.prisma"]
+CMD ["bash", "scripts/migrate/apply.sh"]

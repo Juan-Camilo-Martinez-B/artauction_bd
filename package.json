@@ -12,7 +12,8 @@
     "indexes:mongo": "node mongo/indexes/apply.mjs",
     "seed": "node scripts/seed/run.mjs",
     "backup:postgres": "bash scripts/backup/postgres.sh",
-    "backup:mongo": "bash scripts/backup/mongo.sh"
+    "backup:mongo": "bash scripts/backup/mongo.sh",
+    "migrate": "bash scripts/migrate/apply.sh"
   },
   "dependencies": {
     "@prisma/client": "^6.16.3",
