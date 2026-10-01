@@ -9,7 +9,8 @@
   },
   "scripts": {
     "prisma:validate": "prisma validate --schema postgres/prisma/schema.prisma",
-    "indexes:mongo": "node mongo/indexes/apply.mjs"
+    "indexes:mongo": "node mongo/indexes/apply.mjs",
+    "seed": "node scripts/seed/run.mjs"
   },
   "dependencies": {
     "@prisma/client": "^6.16.3",
