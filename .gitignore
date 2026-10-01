@@ -33,3 +33,5 @@ Thumbs.db
 # Cachés locales
 .eslintcache
 *.local
+__pycache__/
+*.py[cod]
