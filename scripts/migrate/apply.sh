@@ -11,7 +11,7 @@ fi
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 dir="${root}/postgres/migrations"
 
-psql "$DATABASE_URL" -v ON_ERROR_STOP=1 <<'SQL'
+psql -v ON_ERROR_STOP=1 "$DATABASE_URL" <<'SQL'
 CREATE TABLE IF NOT EXISTS schema_migrations (
   version TEXT PRIMARY KEY,
   applied_at TIMESTAMPTZ NOT NULL DEFAULT now()
@@ -23,8 +23,9 @@ mapfile -t files < <(printf '%s\n' "$dir"/*.sql | sort)
 
 for file in "${files[@]}"; do
   version="$(basename "$file")"
-  already="$(psql "$DATABASE_URL" -tA -v ON_ERROR_STOP=1 \
-    -c "SELECT 1 FROM schema_migrations WHERE version = '${version}'")"
+  already="$(psql -tA -v ON_ERROR_STOP=1 \
+    -c "SELECT 1 FROM schema_migrations WHERE version = '${version}'" \
+    "$DATABASE_URL")"
   if [[ "$already" == "1" ]]; then
     echo "skip ${version}"
     continue
@@ -35,5 +36,5 @@ for file in "${files[@]}"; do
     cat "$file"
     printf "INSERT INTO schema_migrations (version) VALUES ('%s');\n" "$version"
     echo "COMMIT;"
-  } | psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -q
+  } | psql -v ON_ERROR_STOP=1 -q "$DATABASE_URL"
 done

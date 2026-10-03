@@ -9,7 +9,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 function runPsql(file) {
   const databaseUrl = process.env.DATABASE_URL;
   return new Promise((resolve, reject) => {
-    const child = spawn('psql', [databaseUrl, '-v', 'ON_ERROR_STOP=1', '-f', file], {
+    const child = spawn('psql', ['-v', 'ON_ERROR_STOP=1', '-f', file, databaseUrl], {
       stdio: 'inherit',
     });
     child.on('exit', (code) => {
