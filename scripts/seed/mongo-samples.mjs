@@ -10,7 +10,6 @@ import { GalleryItem } from '../../mongo/schemas/gallery-item.schema.mjs';
 const SELLER = 'a0000000-0000-4000-8000-000000000002';
 const LEO = 'a0000000-0000-4000-8000-000000000003';
 const PORTRAIT = 'b0000000-0000-4000-8000-000000000001';
-const CLOCK = 'b0000000-0000-4000-8000-000000000002';
 const ANACHRONISM = 'b0000000-0000-4000-8000-000000000003';
 
 const reports = [
@@ -23,17 +22,6 @@ const reports = [
     title: 'Retrato de la costa',
     materials: 'Óleo sobre lienzo',
     year: 1894,
-    findings: [],
-  },
-  {
-    summaryId: 'e0000000-0000-4000-8000-000000000002',
-    lotId: CLOCK,
-    score: 74,
-    priceMin: 400,
-    priceMax: 700,
-    title: 'Reloj de carruaje',
-    materials: 'Latón y esmalte',
-    year: 1910,
     findings: [],
   },
   {
@@ -97,14 +85,6 @@ export async function seedMongo(uri) {
       },
       {
         ownerId: SELLER,
-        lotId: CLOCK,
-        source: 'PROPIA',
-        visibility: 'PUBLIC',
-        title: 'Reloj de carruaje',
-        artistName: 'Taller anónimo',
-      },
-      {
-        ownerId: SELLER,
         lotId: ANACHRONISM,
         source: 'PROPIA',
         visibility: 'PRIVATE',
@@ -153,14 +133,6 @@ export async function seedMongo(uri) {
         objectId: SELLER,
         visibility: 'PUBLIC',
         summary: 'Leo siguió a Marta Vendedora',
-      },
-      {
-        actorId: LEO,
-        verb: 'BID',
-        objectType: 'AUCTION',
-        objectId: 'c0000000-0000-4000-8000-000000000001',
-        visibility: 'PUBLIC',
-        summary: 'Leo pujó por el reloj de carruaje',
       },
     ];
 
