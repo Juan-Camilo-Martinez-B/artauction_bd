@@ -66,4 +66,4 @@ La semilla SQL crea cuatro cuentas con la contraseña local `DevPassword!234`. N
 
 ## Estado
 
-Tag `v0.2.0`: esquema relacional, colecciones Mongo, semillas, respaldos y CI. El backend fija este tag o uno posterior.
+Tag `v0.3.0`: categorías de catálogo, tipo de representación y galería personal. El backend fija este tag o uno posterior.

@@ -6,6 +6,14 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-10-10
+
+### Added
+
+- Categorías de catálogo y vínculo obra-categoría, con una sola categoría principal.
+- `lots.representation_kind` para distinguir obra plana y volumen.
+- Galería personal por usuario, con preferencias, configuración y colocación de obras.
+
 ## [0.2.0] - 2026-09-30
 
 ### Added
