@@ -17,7 +17,7 @@ VALUES
     'Óleo sobre lienzo',
     60.00, 80.00, 3.50,
     'Colección particular, Cartagena.',
-    'APROBADO',
+    'PUBLICADA',
     'PUBLIC',
     86,
     2400.00, 3800.00,
