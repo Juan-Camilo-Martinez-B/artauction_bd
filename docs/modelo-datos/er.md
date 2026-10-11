@@ -27,9 +27,9 @@ erDiagram
 | Tabla | Papel |
 |---|---|
 | `users` | Cuenta, rol y visibilidad del perfil. El correo se guarda en minúsculas. |
-| `lots` | Obra y su ciclo `BORRADOR → PENDIENTE_AUDITORIA → APROBADO \| REVISION_MANUAL → EN_SUBASTA → CERRADO`. |
+| `lots` | Obra. Tras la auditoría aprobada queda `PUBLICADA`, pasa a `EN_SUBASTA` y termina en `VENDIDA` o vuelve a `PUBLICADA`. El detalle está en `subastas-artacoins.md`. |
 | `lot_images` | Clave del objeto en Cloud Storage, orden y hash perceptual. El binario no está aquí. |
-| `auctions` | Una subasta por lote. `ends_at` es el cierre vigente; `initial_ends_at` no se mueve con el anti-sniping. |
+| `auctions` | Una subasta por lote. Si cierra sin venta, la misma fila se reprograma. `ends_at` es el cierre vigente. |
 | `bids` | Puja con `idempotency_key` único. `winning_bid_id` en la subasta apunta a la puja ganadora. |
 | `transactions` | Como máximo una liquidación por subasta. Comprador y vendedor son distintos. |
 | `audit_summaries` | Score, rango de precio y veredicto. `mongo_report_id` apunta al informe completo. |
@@ -38,12 +38,12 @@ erDiagram
 Transiciones de lote que el servicio de catálogo debe respetar:
 
 - `BORRADOR` → `PENDIENTE_AUDITORIA`
-- `PENDIENTE_AUDITORIA` → `APROBADO` o `REVISION_MANUAL`
-- `REVISION_MANUAL` → `APROBADO` o `BORRADOR`
-- `APROBADO` → `EN_SUBASTA`
-- `EN_SUBASTA` → `CERRADO`
+- `PENDIENTE_AUDITORIA` → `PUBLICADA` o `REVISION_MANUAL`
+- `REVISION_MANUAL` → `PUBLICADA` o `BORRADOR`
+- `PUBLICADA` → `EN_SUBASTA`
+- `EN_SUBASTA` → `VENDIDA` o `PUBLICADA`
 
-`current_price` no puede bajar y `ends_at` no puede adelantarse. Lo impone el trigger `auctions_reject_backward_update`, no el cliente.
+`APROBADO` y `CERRADO` siguen aceptados para filas anteriores. `current_price` no baja y `ends_at` no se adelanta, salvo el retiro de la puja ganadora y la reprogramación, que lo hacen dentro de la transacción. El contrato de artacoins, retenciones y calendario está en `subastas-artacoins.md`.
 
 ## Documentos
 
