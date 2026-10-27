@@ -1,6 +1,6 @@
 -- Una subasta programada sobre el retrato de la costa.
 
-INSERT INTO auctions (
+INSERT INTO auction.auctions (
   id, lot_id, start_price, current_price, min_increment, currency,
   starts_at, ends_at, initial_ends_at, status, extension_count
 )

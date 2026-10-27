@@ -1,7 +1,7 @@
 -- Catálogo público tomado de la colección de dominio público del Metropolitan Museum of Art.
 -- Las imágenes viven en el CDN del museo. Postgres guarda la ficha y la dirección.
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -25,7 +25,7 @@ INSERT INTO lots (
   5200.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-0000000032aa',
   'c0000000-0000-4000-8000-0000000032aa',
@@ -34,11 +34,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-0000000032aa', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-0000000032aa', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -62,7 +62,7 @@ INSERT INTO lots (
   3575.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000000295d',
   'c0000000-0000-4000-8000-00000000295d',
@@ -71,11 +71,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000000295d', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000000295d', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -99,7 +99,7 @@ INSERT INTO lots (
   4325.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-000000003259',
   'c0000000-0000-4000-8000-000000003259',
@@ -108,11 +108,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-000000003259', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-000000003259', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -136,7 +136,7 @@ INSERT INTO lots (
   5575.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-000000002f5a',
   'c0000000-0000-4000-8000-000000002f5a',
@@ -145,11 +145,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-000000002f5a', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-000000002f5a', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -173,7 +173,7 @@ INSERT INTO lots (
   7200.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-000000002b80',
   'c0000000-0000-4000-8000-000000002b80',
@@ -182,11 +182,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-000000002b80', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-000000002b80', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -210,7 +210,7 @@ INSERT INTO lots (
   4075.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000000309b',
   'c0000000-0000-4000-8000-00000000309b',
@@ -219,11 +219,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000000309b', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000000309b', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -247,7 +247,7 @@ INSERT INTO lots (
   6075.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000002e465',
   'c0000000-0000-4000-8000-00000002e465',
@@ -256,11 +256,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000002e465', id, true FROM categories WHERE slug = 'escultura'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000002e465', id, true FROM catalog.categories WHERE slug = 'escultura'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -284,7 +284,7 @@ INSERT INTO lots (
   7075.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-000000070156',
   'c0000000-0000-4000-8000-000000070156',
@@ -293,11 +293,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-000000070156', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-000000070156', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -321,7 +321,7 @@ INSERT INTO lots (
   3825.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-000000070117',
   'c0000000-0000-4000-8000-000000070117',
@@ -330,11 +330,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-000000070117', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-000000070117', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -358,7 +358,7 @@ INSERT INTO lots (
   4200.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000000293d',
   'c0000000-0000-4000-8000-00000000293d',
@@ -367,11 +367,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000000293d', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000000293d', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -395,7 +395,7 @@ INSERT INTO lots (
   4575.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-0000000c7490',
   'c0000000-0000-4000-8000-0000000c7490',
@@ -404,11 +404,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-0000000c7490', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-0000000c7490', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -432,7 +432,7 @@ INSERT INTO lots (
   6575.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-0000000e0691',
   'c0000000-0000-4000-8000-0000000e0691',
@@ -441,11 +441,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-0000000e0691', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-0000000e0691', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -469,7 +469,7 @@ INSERT INTO lots (
   4075.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-000000002c6a',
   'c0000000-0000-4000-8000-000000002c6a',
@@ -478,11 +478,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-000000002c6a', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-000000002c6a', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -506,7 +506,7 @@ INSERT INTO lots (
   6700.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-000000002f63',
   'c0000000-0000-4000-8000-000000002f63',
@@ -515,11 +515,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-000000002f63', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-000000002f63', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -543,7 +543,7 @@ INSERT INTO lots (
   3700.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000000295e',
   'c0000000-0000-4000-8000-00000000295e',
@@ -552,11 +552,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000000295e', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000000295e', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -580,7 +580,7 @@ INSERT INTO lots (
   3200.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000007015c',
   'c0000000-0000-4000-8000-00000007015c',
@@ -589,11 +589,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000007015c', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000007015c', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -617,7 +617,7 @@ INSERT INTO lots (
   2825.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-000000053167',
   'c0000000-0000-4000-8000-000000053167',
@@ -626,11 +626,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-000000053167', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-000000053167', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -654,7 +654,7 @@ INSERT INTO lots (
   4450.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000005259a',
   'c0000000-0000-4000-8000-00000005259a',
@@ -663,11 +663,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000005259a', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000005259a', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -691,7 +691,7 @@ INSERT INTO lots (
   5325.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-0000000704c0',
   'c0000000-0000-4000-8000-0000000704c0',
@@ -700,11 +700,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-0000000704c0', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-0000000704c0', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -728,7 +728,7 @@ INSERT INTO lots (
   5075.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-000000052f4e',
   'c0000000-0000-4000-8000-000000052f4e',
@@ -737,11 +737,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-000000052f4e', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-000000052f4e', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -765,7 +765,7 @@ INSERT INTO lots (
   6950.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000000342a',
   'c0000000-0000-4000-8000-00000000342a',
@@ -774,11 +774,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000000342a', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000000342a', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -802,7 +802,7 @@ INSERT INTO lots (
   5950.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-000000058e00',
   'c0000000-0000-4000-8000-000000058e00',
@@ -811,11 +811,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-000000058e00', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-000000058e00', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -839,7 +839,7 @@ INSERT INTO lots (
   6825.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000003d4eb',
   'c0000000-0000-4000-8000-00000003d4eb',
@@ -848,11 +848,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000003d4eb', id, true FROM categories WHERE slug = 'escultura'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000003d4eb', id, true FROM catalog.categories WHERE slug = 'escultura'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -876,7 +876,7 @@ INSERT INTO lots (
   4075.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000003e290',
   'c0000000-0000-4000-8000-00000003e290',
@@ -885,11 +885,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000003e290', id, true FROM categories WHERE slug = 'escultura'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000003e290', id, true FROM catalog.categories WHERE slug = 'escultura'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -913,7 +913,7 @@ INSERT INTO lots (
   6700.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000003e3cd',
   'c0000000-0000-4000-8000-00000003e3cd',
@@ -922,11 +922,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000003e3cd', id, true FROM categories WHERE slug = 'escultura'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000003e3cd', id, true FROM catalog.categories WHERE slug = 'escultura'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -950,7 +950,7 @@ INSERT INTO lots (
   5950.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000003e2e9',
   'c0000000-0000-4000-8000-00000003e2e9',
@@ -959,11 +959,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000003e2e9', id, true FROM categories WHERE slug = 'escultura'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000003e2e9', id, true FROM catalog.categories WHERE slug = 'escultura'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -987,7 +987,7 @@ INSERT INTO lots (
   5825.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000003eb6f',
   'c0000000-0000-4000-8000-00000003eb6f',
@@ -996,11 +996,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000003eb6f', id, true FROM categories WHERE slug = 'escultura'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000003eb6f', id, true FROM catalog.categories WHERE slug = 'escultura'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1024,7 +1024,7 @@ INSERT INTO lots (
   4200.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000003d4d6',
   'c0000000-0000-4000-8000-00000003d4d6',
@@ -1033,11 +1033,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000003d4d6', id, true FROM categories WHERE slug = 'escultura'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000003d4d6', id, true FROM catalog.categories WHERE slug = 'escultura'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1061,7 +1061,7 @@ INSERT INTO lots (
   4325.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000003e87f',
   'c0000000-0000-4000-8000-00000003e87f',
@@ -1070,11 +1070,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000003e87f', id, true FROM categories WHERE slug = 'escultura'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000003e87f', id, true FROM catalog.categories WHERE slug = 'escultura'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1098,7 +1098,7 @@ INSERT INTO lots (
   5325.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000003e4ea',
   'c0000000-0000-4000-8000-00000003e4ea',
@@ -1107,11 +1107,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000003e4ea', id, true FROM categories WHERE slug = 'escultura'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000003e4ea', id, true FROM catalog.categories WHERE slug = 'escultura'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1135,7 +1135,7 @@ INSERT INTO lots (
   7200.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000000c7e2',
   'c0000000-0000-4000-8000-00000000c7e2',
@@ -1144,11 +1144,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000000c7e2', id, true FROM categories WHERE slug = 'escultura'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000000c7e2', id, true FROM catalog.categories WHERE slug = 'escultura'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1172,7 +1172,7 @@ INSERT INTO lots (
   4450.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-000000009889',
   'c0000000-0000-4000-8000-000000009889',
@@ -1181,11 +1181,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-000000009889', id, true FROM categories WHERE slug = 'escultura'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-000000009889', id, true FROM catalog.categories WHERE slug = 'escultura'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1209,7 +1209,7 @@ INSERT INTO lots (
   3950.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-000000009885',
   'c0000000-0000-4000-8000-000000009885',
@@ -1218,11 +1218,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-000000009885', id, true FROM categories WHERE slug = 'escultura'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-000000009885', id, true FROM catalog.categories WHERE slug = 'escultura'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1246,7 +1246,7 @@ INSERT INTO lots (
   3325.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000003d4aa',
   'c0000000-0000-4000-8000-00000003d4aa',
@@ -1255,11 +1255,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000003d4aa', id, true FROM categories WHERE slug = 'escultura'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000003d4aa', id, true FROM catalog.categories WHERE slug = 'escultura'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1283,7 +1283,7 @@ INSERT INTO lots (
   3950.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000002e351',
   'c0000000-0000-4000-8000-00000002e351',
@@ -1292,11 +1292,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000002e351', id, true FROM categories WHERE slug = 'escultura'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000002e351', id, true FROM catalog.categories WHERE slug = 'escultura'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1320,7 +1320,7 @@ INSERT INTO lots (
   2950.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-0000000704f7',
   'c0000000-0000-4000-8000-0000000704f7',
@@ -1329,11 +1329,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-0000000704f7', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-0000000704f7', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1357,7 +1357,7 @@ INSERT INTO lots (
   5200.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-0000000586c0',
   'c0000000-0000-4000-8000-0000000586c0',
@@ -1366,11 +1366,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-0000000586c0', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-0000000586c0', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1394,7 +1394,7 @@ INSERT INTO lots (
   7075.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-000000056d3a',
   'c0000000-0000-4000-8000-000000056d3a',
@@ -1403,11 +1403,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-000000056d3a', id, true FROM categories WHERE slug = 'pinturas'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-000000056d3a', id, true FROM catalog.categories WHERE slug = 'pinturas'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1431,7 +1431,7 @@ INSERT INTO lots (
   6700.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000003081d',
   'c0000000-0000-4000-8000-00000003081d',
@@ -1440,11 +1440,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000003081d', id, true FROM categories WHERE slug = 'ceramica'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000003081d', id, true FROM catalog.categories WHERE slug = 'ceramica'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1468,7 +1468,7 @@ INSERT INTO lots (
   6075.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-000000032d18',
   'c0000000-0000-4000-8000-000000032d18',
@@ -1477,11 +1477,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-000000032d18', id, true FROM categories WHERE slug = 'ceramica'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-000000032d18', id, true FROM catalog.categories WHERE slug = 'ceramica'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1505,7 +1505,7 @@ INSERT INTO lots (
   5200.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-0000000321f0',
   'c0000000-0000-4000-8000-0000000321f0',
@@ -1514,11 +1514,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-0000000321f0', id, true FROM categories WHERE slug = 'ceramica'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-0000000321f0', id, true FROM catalog.categories WHERE slug = 'ceramica'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1542,7 +1542,7 @@ INSERT INTO lots (
   5075.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-0000000321ef',
   'c0000000-0000-4000-8000-0000000321ef',
@@ -1551,11 +1551,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-0000000321ef', id, true FROM categories WHERE slug = 'ceramica'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-0000000321ef', id, true FROM catalog.categories WHERE slug = 'ceramica'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1579,7 +1579,7 @@ INSERT INTO lots (
   4950.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000004056c',
   'c0000000-0000-4000-8000-00000004056c',
@@ -1588,11 +1588,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000004056c', id, true FROM categories WHERE slug = 'fotografia'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000004056c', id, true FROM catalog.categories WHERE slug = 'fotografia'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1616,7 +1616,7 @@ INSERT INTO lots (
   3450.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000006718f',
   'c0000000-0000-4000-8000-00000006718f',
@@ -1625,11 +1625,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000006718f', id, true FROM categories WHERE slug = 'fotografia'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000006718f', id, true FROM catalog.categories WHERE slug = 'fotografia'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1653,7 +1653,7 @@ INSERT INTO lots (
   4200.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-000000067298',
   'c0000000-0000-4000-8000-000000067298',
@@ -1662,11 +1662,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-000000067298', id, true FROM categories WHERE slug = 'fotografia'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-000000067298', id, true FROM catalog.categories WHERE slug = 'fotografia'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1690,7 +1690,7 @@ INSERT INTO lots (
   6450.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000009e654',
   'c0000000-0000-4000-8000-00000009e654',
@@ -1699,11 +1699,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000009e654', id, true FROM categories WHERE slug = 'fotografia'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000009e654', id, true FROM catalog.categories WHERE slug = 'fotografia'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1727,7 +1727,7 @@ INSERT INTO lots (
   4575.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000009e973',
   'c0000000-0000-4000-8000-00000009e973',
@@ -1736,11 +1736,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000009e973', id, true FROM categories WHERE slug = 'fotografia'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000009e973', id, true FROM catalog.categories WHERE slug = 'fotografia'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1764,7 +1764,7 @@ INSERT INTO lots (
   5200.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-0000000a00bd',
   'c0000000-0000-4000-8000-0000000a00bd',
@@ -1773,11 +1773,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-0000000a00bd', id, true FROM categories WHERE slug = 'fotografia'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-0000000a00bd', id, true FROM catalog.categories WHERE slug = 'fotografia'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1801,7 +1801,7 @@ INSERT INTO lots (
   5950.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-000000030bd9',
   'c0000000-0000-4000-8000-000000030bd9',
@@ -1810,11 +1810,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-000000030bd9', id, true FROM categories WHERE slug = 'objetos-artisticos'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-000000030bd9', id, true FROM catalog.categories WHERE slug = 'objetos-artisticos'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1838,7 +1838,7 @@ INSERT INTO lots (
   6200.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-0000000c8dc3',
   'c0000000-0000-4000-8000-0000000c8dc3',
@@ -1847,11 +1847,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-0000000c8dc3', id, true FROM categories WHERE slug = 'objetos-artisticos'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-0000000c8dc3', id, true FROM catalog.categories WHERE slug = 'objetos-artisticos'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1875,7 +1875,7 @@ INSERT INTO lots (
   6700.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000002ff27',
   'c0000000-0000-4000-8000-00000002ff27',
@@ -1884,11 +1884,11 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000002ff27', id, true FROM categories WHERE slug = 'objetos-artisticos'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000002ff27', id, true FROM catalog.categories WHERE slug = 'objetos-artisticos'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -1912,7 +1912,7 @@ INSERT INTO lots (
   5325.00,
   'USD'
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   'c1000000-0000-4000-8000-00000002e5f6',
   'c0000000-0000-4000-8000-00000002e5f6',
@@ -1921,7 +1921,7 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;
-INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT 'c0000000-0000-4000-8000-00000002e5f6', id, true FROM categories WHERE slug = 'objetos-artisticos'
+INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT 'c0000000-0000-4000-8000-00000002e5f6', id, true FROM catalog.categories WHERE slug = 'objetos-artisticos'
 ON CONFLICT DO NOTHING;
 
