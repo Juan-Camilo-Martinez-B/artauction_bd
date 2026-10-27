@@ -1,12 +1,12 @@
 -- Comprueba el catálogo y las invariantes de puja. La transacción se revierte.
 BEGIN;
 
-INSERT INTO users (id, email, password_hash, display_name, role)
+INSERT INTO identity.users (id, email, password_hash, display_name, role)
 VALUES
   ('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1', 'assert-seller@artauction.local', 'hash-not-used-assert-only', 'Assert Seller', 'SELLER'),
   ('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa2', 'assert-bidder@artauction.local', 'hash-not-used-assert-only', 'Assert Bidder', 'USER');
 
-INSERT INTO lots (id, seller_id, title, description, materials, status, visibility)
+INSERT INTO catalog.lots (id, seller_id, title, description, materials, status, visibility)
 VALUES (
   'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
   'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1',
@@ -17,7 +17,7 @@ VALUES (
   'PUBLIC'
 );
 
-INSERT INTO auctions (
+INSERT INTO auction.auctions (
   id, lot_id, start_price, current_price, min_increment, starts_at, ends_at, initial_ends_at, status
 ) VALUES (
   'cccccccc-cccc-4ccc-8ccc-ccccccccccc1',
@@ -29,13 +29,13 @@ INSERT INTO auctions (
   'ACTIVA'
 );
 
-UPDATE auctions
+UPDATE auction.auctions
 SET current_price = 150
 WHERE id = 'cccccccc-cccc-4ccc-8ccc-ccccccccccc1';
 
 DO $$
 BEGIN
-  UPDATE auctions
+  UPDATE auction.auctions
   SET current_price = 120
   WHERE id = 'cccccccc-cccc-4ccc-8ccc-ccccccccccc1';
   RAISE EXCEPTION 'price decrease was accepted';
@@ -46,7 +46,7 @@ END $$;
 
 DO $$
 BEGIN
-  UPDATE auctions
+  UPDATE auction.auctions
   SET ends_at = now() + interval '1 day 1 hour'
   WHERE id = 'cccccccc-cccc-4ccc-8ccc-ccccccccccc1';
   RAISE EXCEPTION 'ends_at decrease was accepted';
@@ -55,7 +55,7 @@ EXCEPTION
     NULL;
 END $$;
 
-INSERT INTO bids (id, auction_id, bidder_id, amount, idempotency_key)
+INSERT INTO auction.bids (id, auction_id, bidder_id, amount, idempotency_key)
 VALUES (
   'dddddddd-dddd-4ddd-8ddd-ddddddddddd1',
   'cccccccc-cccc-4ccc-8ccc-ccccccccccc1',
@@ -66,7 +66,7 @@ VALUES (
 
 DO $$
 BEGIN
-  INSERT INTO bids (auction_id, bidder_id, amount, idempotency_key)
+  INSERT INTO auction.bids (auction_id, bidder_id, amount, idempotency_key)
   VALUES (
     'cccccccc-cccc-4ccc-8ccc-ccccccccccc1',
     'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa2',
@@ -81,7 +81,7 @@ END $$;
 
 DO $$
 BEGIN
-  INSERT INTO follows (follower_id, followee_id)
+  INSERT INTO gallery.follows (follower_id, followee_id)
   VALUES ('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1', 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1');
   RAISE EXCEPTION 'self follow was accepted';
 EXCEPTION
@@ -100,6 +100,39 @@ BEGIN
     SELECT 1 FROM pg_trigger WHERE tgname = 'auctions_reject_backward_update'
   ) THEN
     RAISE EXCEPTION 'missing auctions_reject_backward_update';
+  END IF;
+END $$;
+
+-- Esquema por servicio: ninguna llave foránea cruza esquemas, cada servicio
+-- tiene su rol de grupo y ningún rol de servicio ve el esquema de otro.
+DO $$
+DECLARE
+  crossing INTEGER;
+  service TEXT;
+  other TEXT;
+BEGIN
+  SELECT count(*) INTO crossing
+  FROM pg_constraint c
+  JOIN pg_class t ON t.oid = c.conrelid
+  JOIN pg_class r ON r.oid = c.confrelid
+  WHERE c.contype = 'f' AND t.relnamespace <> r.relnamespace;
+  IF crossing > 0 THEN
+    RAISE EXCEPTION '% foreign keys cross schemas', crossing;
+  END IF;
+
+  FOREACH service IN ARRAY ARRAY['identity', 'catalog', 'auction', 'wallet', 'audit', 'gallery'] LOOP
+    IF NOT has_schema_privilege(service || '_rw', service, 'USAGE') THEN
+      RAISE EXCEPTION 'role %_rw cannot use schema %', service, service;
+    END IF;
+    FOREACH other IN ARRAY ARRAY['identity', 'catalog', 'auction', 'wallet', 'audit', 'gallery'] LOOP
+      IF other <> service AND has_schema_privilege(service || '_rw', other, 'USAGE') THEN
+        RAISE EXCEPTION 'role %_rw can use foreign schema %', service, other;
+      END IF;
+    END LOOP;
+  END LOOP;
+
+  IF to_regclass('auction.outbox') IS NULL OR to_regclass('wallet.inbox') IS NULL THEN
+    RAISE EXCEPTION 'missing outbox or inbox tables';
   END IF;
 END $$;
 
