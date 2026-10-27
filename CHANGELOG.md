@@ -6,6 +6,26 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-10-27
+
+### Added
+
+- Un esquema por microservicio: `identity`, `catalog`, `auction`, `wallet`, `audit`, `gallery` y `audit_queue` para pg-boss.
+- Roles de grupo `<servicio>_rw` con permisos solo sobre su esquema, y `scripts/roles/create-logins.sh` para los usuarios con login.
+- Tablas `outbox` en los productores de eventos e `inbox` en los consumidores.
+- Vistas de compatibilidad en `public` con el nombre de cada tabla movida, para el monolito durante la migración.
+- Comprobaciones en `assert.sql`: sin llaves foráneas entre esquemas y sin acceso de un rol a un esquema ajeno.
+- Guía `docs/modelo-datos/esquemas-por-servicio.md`.
+
+### Changed
+
+- Las semillas y las comprobaciones escriben en las tablas calificadas por esquema.
+- `postgres/prisma/schema.prisma` se regenera por introspección e incluye el bolsillo y los estados de venta que faltaban.
+
+### Removed
+
+- Llaves foráneas entre contextos, como `lots.seller_id -> users.id` y `bids.bidder_id -> users.id`. La integridad entre servicios la sostienen los eventos.
+
 ## [0.3.0] - 2026-10-10
 
 ### Added
