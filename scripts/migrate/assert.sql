@@ -103,6 +103,37 @@ BEGIN
   END IF;
 END $$;
 
+-- Recarga idempotente: la misma clave de un usuario no crea una segunda orden.
+INSERT INTO wallet.payment_orders (user_id, coins, amount_cents, status, card_brand, card_last4, idempotency_key, request_hash)
+VALUES (
+  'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa2', 100, 10000, 'APROBADO', 'visa', '4242',
+  'assert-topup-key-1', repeat('a', 64)
+);
+
+DO $$
+BEGIN
+  INSERT INTO wallet.payment_orders (user_id, coins, amount_cents, status, card_brand, card_last4, idempotency_key, request_hash)
+  VALUES (
+    'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa2', 100, 10000, 'APROBADO', 'visa', '4242',
+    'assert-topup-key-1', repeat('a', 64)
+  );
+  RAISE EXCEPTION 'duplicate top-up idempotency key was accepted';
+EXCEPTION
+  WHEN unique_violation THEN
+    NULL;
+END $$;
+
+-- Una reserva TCC debe cuadrar: reservado = siguiente - anterior.
+DO $$
+BEGIN
+  INSERT INTO wallet.hold_reservations (reservation_id, auction_id, bidder_id, previous_coins, next_coins, reserved_coins, expires_at)
+  VALUES ('assert-reservation-1', 'cccccccc-cccc-4ccc-8ccc-ccccccccccc1', 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa2', 100, 150, 10, now());
+  RAISE EXCEPTION 'unbalanced hold reservation was accepted';
+EXCEPTION
+  WHEN check_violation THEN
+    NULL;
+END $$;
+
 -- Esquema por servicio: ninguna llave foránea cruza esquemas, cada servicio
 -- tiene su rol de grupo y ningún rol de servicio ve el esquema de otro.
 DO $$
