@@ -29,6 +29,19 @@ INSERT INTO auction.auctions (
   'ACTIVA'
 );
 
+-- 0018: la subasta creada sin copia de la obra la recibe desde catalog.lots.
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM auction.auctions
+    WHERE id = 'cccccccc-cccc-4ccc-8ccc-ccccccccccc1'
+      AND seller_id = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1'
+      AND lot_title = 'Obra assert'
+  ) THEN
+    RAISE EXCEPTION 'auctions_fill_lot_copy did not copy seller and title';
+  END IF;
+END $$;
+
 UPDATE auction.auctions
 SET current_price = 150
 WHERE id = 'cccccccc-cccc-4ccc-8ccc-ccccccccccc1';
