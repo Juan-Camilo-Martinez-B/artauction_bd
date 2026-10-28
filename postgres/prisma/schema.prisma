@@ -341,16 +341,18 @@ model wallet_inbox {
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model payment_orders {
-  id             String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_id        String           @db.Uuid
-  coins          Int
-  amount_cents   Int
-  currency       String           @default("USD") @db.Char(3)
-  status         String
-  card_brand     String
-  card_last4     String           @db.Char(4)
-  created_at     DateTime         @default(now()) @db.Timestamptz(6)
-  wallet_entries wallet_entries[]
+  id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id         String           @db.Uuid
+  coins           Int
+  amount_cents    Int
+  currency        String           @default("USD") @db.Char(3)
+  status          String
+  card_brand      String
+  card_last4      String           @db.Char(4)
+  created_at      DateTime         @default(now()) @db.Timestamptz(6)
+  idempotency_key String?
+  request_hash    String?
+  wallet_entries  wallet_entries[]
 
   @@schema("wallet")
 }
@@ -375,6 +377,34 @@ model wallets {
   user_id    String   @id @db.Uuid
   balance    Int      @default(0)
   updated_at DateTime @default(now()) @db.Timestamptz(6)
+
+  @@schema("wallet")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model hold_reservations {
+  reservation_id String   @id
+  auction_id     String   @db.Uuid
+  bidder_id      String   @db.Uuid
+  previous_coins Int
+  next_coins     Int
+  reserved_coins Int
+  status         String   @default("PENDIENTE")
+  expires_at     DateTime @db.Timestamptz(6)
+  created_at     DateTime @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([auction_id, bidder_id], map: "hold_reservations_auction_bidder_idx")
+  @@schema("wallet")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model platform_fees {
+  auction_id  String   @id @db.Uuid
+  seller_id   String   @db.Uuid
+  gross_coins Int
+  fee_coins   Int
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
 
   @@schema("wallet")
 }

@@ -6,6 +6,15 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-10-28
+
+### Added
+
+- Recargas idempotentes: `wallet.payment_orders.idempotency_key` única por usuario y `request_hash` con la huella del contenido.
+- `wallet.hold_reservations` para las retenciones TCC de las pujas (pendiente, confirmada o liberada, con vencimiento).
+- Movimiento `VENTA` en `wallet.wallet_entries` y `wallet.platform_fees` para la comisión de cada venta, una sola vez por subasta.
+- Comprobaciones en `assert.sql`: clave de recarga repetida y reserva que no cuadra.
+
 ## [0.4.0] - 2026-10-27
 
 ### Added

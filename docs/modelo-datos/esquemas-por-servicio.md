@@ -4,16 +4,16 @@ Desde `v0.4.0` el backend es un conjunto de microservicios. Cada uno es dueño e
 
 ## Reparto
 
-| Esquema       | Servicio         | Tablas                                                                  |
-| ------------- | ---------------- | ----------------------------------------------------------------------- |
-| `identity`    | identity-service | `users`                                                                 |
-| `catalog`     | catalog-service  | `lots`, `lot_images`, `categories`, `lot_categories`, `outbox`, `inbox` |
-| `auction`     | auction-service  | `auctions`, `bids`, `transactions`, `outbox`, `inbox`                   |
-| `wallet`      | wallet-service   | `wallets`, `payment_orders`, `wallet_entries`, `bid_holds`, `inbox`     |
-| `audit`       | audit-service    | `audit_summaries`, `outbox`, `inbox`                                    |
-| `audit_queue` | audit-service    | tablas propias de pg-boss, creadas al arrancar                          |
-| `gallery`     | gallery-service  | `follows`, `personal_galleries`, `personal_gallery_artworks`, `inbox`   |
-| `public`      | ninguno          | `schema_migrations` y vistas de compatibilidad temporales               |
+| Esquema       | Servicio         | Tablas                                                                                                    |
+| ------------- | ---------------- | --------------------------------------------------------------------------------------------------------- |
+| `identity`    | identity-service | `users`                                                                                                   |
+| `catalog`     | catalog-service  | `lots`, `lot_images`, `categories`, `lot_categories`, `outbox`, `inbox`                                   |
+| `auction`     | auction-service  | `auctions`, `bids`, `transactions`, `outbox`, `inbox`                                                     |
+| `wallet`      | wallet-service   | `wallets`, `payment_orders`, `wallet_entries`, `bid_holds`, `hold_reservations`, `platform_fees`, `inbox` |
+| `audit`       | audit-service    | `audit_summaries`, `outbox`, `inbox`                                                                      |
+| `audit_queue` | audit-service    | tablas propias de pg-boss, creadas al arrancar                                                            |
+| `gallery`     | gallery-service  | `follows`, `personal_galleries`, `personal_gallery_artworks`, `inbox`                                     |
+| `public`      | ninguno          | `schema_migrations` y vistas de compatibilidad temporales                                                 |
 
 ```mermaid
 flowchart LR
