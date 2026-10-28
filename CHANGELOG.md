@@ -6,6 +6,18 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-10-28
+
+### Added
+
+- `auction.auctions.seller_id` y `auction.auctions.lot_title`: copia del vendedor y del título de la obra, para que auction-service valide pujas sin leer `catalog`. La migración rellena las subastas existentes.
+- Índices parciales `auctions_due_to_open_idx` y `auctions_due_to_close_idx` para el programador de aperturas y cierres.
+- Comprobación en `assert.sql` del relleno de la copia.
+
+### Deprecated
+
+- Trigger transitorio `auctions_fill_lot_copy` (`auction.fill_lot_copy()`, `SECURITY DEFINER`): completa la copia desde `catalog.lots` cuando la subasta llega sin ella, como hace la auditoría del monolito. Es la única lectura entre esquemas y se elimina en la migración de contract de F7, cuando audit-service envíe la copia en `AuditCompleted`.
+
 ## [0.5.0] - 2026-10-28
 
 ### Added

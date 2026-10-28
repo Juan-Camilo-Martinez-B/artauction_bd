@@ -46,6 +46,12 @@ Las líneas son llaves foráneas y solo existen dentro de un esquema. Una refere
 
 Consecuencia: las llaves con `ON DELETE CASCADE` hacia `users` (seguimientos y galería personal) ya no borran en cascada. Hoy no existe el borrado de cuentas; cuando exista, identity publicará un evento y cada servicio borrará lo suyo.
 
+### Copias de otro contexto
+
+Un servicio que necesita un dato ajeno para decidir guarda una copia en su esquema, recibida por evento. `auction.auctions.seller_id` y `lot_title` (migración `0018`) son la copia de la obra con la que auction-service rechaza que un vendedor puje en su propia subasta y redacta la venta, sin leer `catalog`.
+
+Excepción transitoria: hasta que audit-service exista (F7), la auditoría del monolito crea subastas sin esa copia. El trigger `auctions_fill_lot_copy` llama a `auction.fill_lot_copy()`, una función `SECURITY DEFINER` con `search_path` fijo que completa los dos campos desde `catalog.lots` solo cuando llegan vacíos. Ningún rol de servicio gana permisos sobre `catalog`; la migración de contract de F7 borra el trigger y la función.
+
 ## Roles
 
 La migración `0016` crea un rol de grupo sin login por servicio (`identity_rw`, `catalog_rw`, ...) con `SELECT, INSERT, UPDATE, DELETE` sobre su esquema y privilegios por defecto para las tablas futuras. Ningún rol de servicio puede hacer DDL: el esquema solo cambia por migraciones de este repositorio.
