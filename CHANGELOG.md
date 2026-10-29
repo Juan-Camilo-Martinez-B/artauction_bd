@@ -6,6 +6,22 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-10-29
+
+### Added
+
+- `audit.audit_requests`: cola de auditorías de audit-service. Cada `LotSubmitted` crea una solicitud en la misma transacción que su inbox; el worker la toma con `FOR UPDATE SKIP LOCKED` y un lease, y reintenta con backoff. El índice único parcial `audit_requests_pending_lot_uidx` permite una sola auditoría pendiente por obra.
+- `audit.ai_assessments`: caché de evaluaciones de la IA por huella SHA-256 del expediente de evidencias, el modelo y la versión del prompt. Reauditar una obra sin cambios no gasta tokens.
+- `audit.audit_summaries.decided_by` (`RULES`, `AI` o `FALLBACK`) y `dossier_hash`.
+
+### Changed
+
+- `auction.auctions.seller_id` y `lot_title` pasan a `NOT NULL`. La migración falla si alguna subasta no tiene la copia.
+
+### Removed
+
+- Trigger transitorio `auctions_fill_lot_copy` y función `auction.fill_lot_copy()` (contract de 0018). audit-service envía el vendedor y el título en `AuditCompleted`; ya no queda ninguna lectura entre esquemas.
+
 ## [0.6.0] - 2026-10-28
 
 ### Added

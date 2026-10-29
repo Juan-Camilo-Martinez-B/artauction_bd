@@ -79,4 +79,4 @@ La semilla SQL crea cuatro cuentas con la contraseña local `DevPassword!234`. N
 
 ## Estado
 
-Tag `v0.6.0`: copia del vendedor y del título en `auction.auctions` para auction-service, con un trigger transitorio hasta F7. `v0.5.0`: recargas idempotentes, reservas TCC y comisión por venta. `v0.4.0`: un esquema por microservicio, roles aislados, outbox e inbox. `v0.3.0`: categorías, tipo de representación y galería personal.
+Tag `v0.7.0`: cola de auditorías y caché de evaluaciones de la IA en `audit`, y retiro del trigger transitorio de 0018 (ya no hay lecturas entre esquemas). `v0.6.0`: copia del vendedor y del título en `auction.auctions` para auction-service. `v0.5.0`: recargas idempotentes, reservas TCC y comisión por venta. `v0.4.0`: un esquema por microservicio, roles aislados, outbox e inbox. `v0.3.0`: categorías, tipo de representación y galería personal.

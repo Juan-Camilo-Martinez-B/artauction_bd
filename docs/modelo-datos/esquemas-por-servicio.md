@@ -10,7 +10,7 @@ Desde `v0.4.0` el backend es un conjunto de microservicios. Cada uno es dueño e
 | `catalog`     | catalog-service  | `lots`, `lot_images`, `categories`, `lot_categories`, `outbox`, `inbox`                                   |
 | `auction`     | auction-service  | `auctions`, `bids`, `transactions`, `outbox`, `inbox`                                                     |
 | `wallet`      | wallet-service   | `wallets`, `payment_orders`, `wallet_entries`, `bid_holds`, `hold_reservations`, `platform_fees`, `inbox` |
-| `audit`       | audit-service    | `audit_summaries`, `outbox`, `inbox`                                                                      |
+| `audit`       | audit-service    | `audit_summaries`, `audit_requests`, `ai_assessments`, `outbox`, `inbox`                                  |
 | `audit_queue` | audit-service    | tablas propias de pg-boss, creadas al arrancar                                                            |
 | `gallery`     | gallery-service  | `follows`, `personal_galleries`, `personal_gallery_artworks`, `inbox`                                     |
 | `public`      | ninguno          | `schema_migrations` y vistas de compatibilidad temporales                                                 |
@@ -50,7 +50,7 @@ Consecuencia: las llaves con `ON DELETE CASCADE` hacia `users` (seguimientos y g
 
 Un servicio que necesita un dato ajeno para decidir guarda una copia en su esquema, recibida por evento. `auction.auctions.seller_id` y `lot_title` (migración `0018`) son la copia de la obra con la que auction-service rechaza que un vendedor puje en su propia subasta y redacta la venta, sin leer `catalog`.
 
-Excepción transitoria: hasta que audit-service exista (F7), la auditoría del monolito crea subastas sin esa copia. El trigger `auctions_fill_lot_copy` llama a `auction.fill_lot_copy()`, una función `SECURITY DEFINER` con `search_path` fijo que completa los dos campos desde `catalog.lots` solo cuando llegan vacíos. Ningún rol de servicio gana permisos sobre `catalog`; la migración de contract de F7 borra el trigger y la función.
+Hasta F7 la auditoría del monolito creaba subastas sin esa copia y un trigger transitorio (`auctions_fill_lot_copy`) la completaba desde `catalog.lots`. La migración `0020` lo eliminó y volvió obligatorias las dos columnas: audit-service envía el vendedor y el título en `AuditCompleted`, y ya no queda ninguna lectura entre esquemas.
 
 ## Roles
 
@@ -86,4 +86,4 @@ La fase contract es una migración posterior que elimina las vistas cuando el mo
 
 ## Mongo
 
-Mongo sigue los mismos límites con una base por servicio (`artauction_identity`, `artauction_audit`, `artauction_gallery`, `artauction_notification`). Cada colección se mueve a su base cuando su servicio entra en producción, no antes, para no dejar al monolito sin datos.
+Mongo sigue los mismos límites con una base por servicio (`artauction_identity`, `artauction_audit`, `artauction_gallery`, `artauction_notification`). Cada colección se mueve a su base cuando su servicio entra en producción, no antes, para no dejar al monolito sin datos. Desde F7 audit-service guarda los informes completos (expediente de evidencias y evaluación) en `artauction_audit.audit_reports`.
