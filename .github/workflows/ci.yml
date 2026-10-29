@@ -40,6 +40,23 @@ jobs:
       - name: Assert bid invariants
         run: bash scripts/migrate/assert.sh
 
+      - name: Seed relational data
+        run: |
+          for file in postgres/seeds/*.sql; do
+            psql -v ON_ERROR_STOP=1 -q -f "$file" "$DATABASE_URL"
+          done
+
+      - name: Service logins are isolated
+        run: |
+          export CATALOG_DB_PASSWORD="$(openssl rand -base64 24)"
+          bash scripts/roles/create-logins.sh
+          login="postgresql://catalog_svc:$(python3 -c 'import os,urllib.parse;print(urllib.parse.quote(os.environ["CATALOG_DB_PASSWORD"],safe=""))')@localhost:5432/artauction"
+          test "$(psql -tA -c 'select count(*) > 0 from lots' "$login")" = "t"
+          if psql -tA -c 'select 1 from identity.users limit 1' "$login" 2>/dev/null; then
+            echo "catalog_svc read identity.users" >&2
+            exit 1
+          fi
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -82,3 +99,19 @@ jobs:
 
       - name: Load mongo samples
         run: node scripts/seed/mongo-samples.mjs
+
+  # Imagen db-setup que usa el docker compose del backend para migrar, crear
+  # los logins de servicio y sembrar la base.
+  image:
+    name: setup image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build the db-setup image
+        run: docker build -t artauction-db-setup .
+
+      # bash dentro del contenedor no acepta CRLF (set: pipefail: invalid option).
+      - name: Shell scripts keep LF endings
+        run: docker run --rm --entrypoint sh artauction-db-setup -c 'crlf=$(find scripts -name "*.sh" -exec grep -l "$(printf "\r")" {} +); test -z "$crlf" || { echo "$crlf"; exit 1; }'

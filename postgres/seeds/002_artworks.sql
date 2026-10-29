@@ -1,7 +1,7 @@
 -- Obras de ejemplo de Marta Vendedora, con imagen, score y resumen de auditoría.
 -- El borrador no tiene resumen: todavía no entra a la cola.
 
-INSERT INTO lots (
+INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -57,7 +57,7 @@ VALUES
   )
 ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO lot_images (id, lot_id, object_key, position, perceptual_hash, width_px, height_px)
+INSERT INTO catalog.lot_images (id, lot_id, object_key, position, perceptual_hash, width_px, height_px)
 VALUES
   (
     'b1000000-0000-4000-8000-000000000001',
@@ -79,7 +79,7 @@ VALUES
   )
 ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO audit_summaries (
+INSERT INTO audit.audit_summaries (
   id, lot_id, score, price_min, price_max, verdict, has_critical_inconsistency,
   mongo_report_id, model_name, prompt_version
 )

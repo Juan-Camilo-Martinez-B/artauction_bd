@@ -6,10 +6,14 @@ Esquemas versionados de **ArtAuction AI**. Este repositorio es la fuente de verd
 
 | Motor | Qué guarda | Por qué |
 |---|---|---|
-| Postgres (Neon) | `users`, `lots`, `auctions`, `bids`, `transactions`, `audit_summaries`, `follows` | Integridad, pujas con bloqueo de fila, cola pg-boss |
+| Postgres (Neon) | Un esquema por microservicio: `identity`, `catalog`, `auction`, `wallet`, `audit`, `gallery` | Integridad, pujas con bloqueo de fila, outbox transaccional, cola pg-boss |
 | MongoDB (Atlas M0) | `audit_reports`, `gallery_items`, `activity_feed`, `event_logs` | Documentos de auditoría, galería y feed de actividad |
 
 Las referencias cruzadas son UUID. Un informe en Mongo apunta al lote de Postgres por su id; no hay un commit que abarque los dos motores.
+
+## Esquema por servicio
+
+Desde `v0.4.0` cada microservicio del backend es dueño de un esquema y se conecta con un rol que no ve los demás. No hay llaves foráneas entre esquemas; la integridad entre servicios la sostienen los eventos del outbox. Desde `v0.8.0` ya no quedan vistas de compatibilidad: `public` solo guarda el registro de migraciones. El detalle, los roles y el outbox están en [docs/modelo-datos/esquemas-por-servicio.md](docs/modelo-datos/esquemas-por-servicio.md).
 
 ## Diseño que las migraciones deben respetar
 
@@ -23,6 +27,7 @@ Las referencias cruzadas son UUID. Un informe en Mongo apunta al lote de Postgre
 ```
 postgres/prisma       schema Prisma
 postgres/migrations   SQL versionado
+scripts/roles         usuarios con login por microservicio
 postgres/seeds        datos de ejemplo relacionales
 mongo/schemas         esquemas Mongoose
 mongo/indexes         índices de las cuatro colecciones
@@ -60,10 +65,18 @@ npm run seed
 npm run indexes:mongo
 ```
 
+Para conectar los microservicios, crea sus usuarios con contraseñas propias (mínimo 16 caracteres) y ejecuta `npm run roles`:
+
+```bash
+export IDENTITY_DB_PASSWORD=... CATALOG_DB_PASSWORD=... AUCTION_DB_PASSWORD=...
+export WALLET_DB_PASSWORD=... AUDIT_DB_PASSWORD=... GALLERY_DB_PASSWORD=...
+npm run roles
+```
+
 La semilla SQL crea cuatro cuentas con la contraseña local `DevPassword!234`. No sirve en producción.
 
 `npm run backup:postgres` y `npm run backup:mongo` escriben en `BACKUP_DIR` (por defecto `./backups`), que no se versiona.
 
 ## Estado
 
-Tag `v0.3.0`: categorías de catálogo, tipo de representación y galería personal. El backend fija este tag o uno posterior.
+Tag `v0.8.0`: retiro de las vistas de compatibilidad de `public` y de los esquemas sin uso `pgboss` y `audit_queue`. `v0.7.0`: cola de auditorías y caché de evaluaciones de la IA en `audit`, y retiro del trigger transitorio de 0018 (ya no hay lecturas entre esquemas). `v0.6.0`: copia del vendedor y del título en `auction.auctions` para auction-service. `v0.5.0`: recargas idempotentes, reservas TCC y comisión por venta. `v0.4.0`: un esquema por microservicio, roles aislados, outbox e inbox. `v0.3.0`: categorías, tipo de representación y galería personal.

@@ -1,7 +1,7 @@
 -- Semilla local. La contraseña de las cuatro cuentas es DevPassword!234
 -- y el hash es Argon2id. No usar estas credenciales fuera de desarrollo.
 
-INSERT INTO users (id, email, password_hash, display_name, role, profile_visibility, bio)
+INSERT INTO identity.users (id, email, password_hash, display_name, role, profile_visibility, bio)
 VALUES
   (
     'a0000000-0000-4000-8000-000000000001',
@@ -41,7 +41,7 @@ VALUES
   )
 ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO follows (follower_id, followee_id)
+INSERT INTO gallery.follows (follower_id, followee_id)
 VALUES
   ('a0000000-0000-4000-8000-000000000003', 'a0000000-0000-4000-8000-000000000002'),
   ('a0000000-0000-4000-8000-000000000004', 'a0000000-0000-4000-8000-000000000002')
