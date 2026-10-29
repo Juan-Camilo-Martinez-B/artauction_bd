@@ -99,3 +99,19 @@ jobs:
 
       - name: Load mongo samples
         run: node scripts/seed/mongo-samples.mjs
+
+  # Imagen db-setup que usa el docker compose del backend para migrar, crear
+  # los logins de servicio y sembrar la base.
+  image:
+    name: setup image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build the db-setup image
+        run: docker build -t artauction-db-setup .
+
+      # bash dentro del contenedor no acepta CRLF (set: pipefail: invalid option).
+      - name: Shell scripts keep LF endings
+        run: docker run --rm --entrypoint sh artauction-db-setup -c 'crlf=$(find scripts -name "*.sh" -exec grep -l "$(printf "\r")" {} +); test -z "$crlf" || { echo "$crlf"; exit 1; }'
