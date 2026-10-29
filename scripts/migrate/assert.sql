@@ -18,10 +18,12 @@ VALUES (
 );
 
 INSERT INTO auction.auctions (
-  id, lot_id, start_price, current_price, min_increment, starts_at, ends_at, initial_ends_at, status
+  id, lot_id, seller_id, lot_title, start_price, current_price, min_increment, starts_at, ends_at, initial_ends_at, status
 ) VALUES (
   'cccccccc-cccc-4ccc-8ccc-ccccccccccc1',
   'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
+  'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1',
+  'Obra assert',
   100, 100, 10,
   now() - interval '1 hour',
   now() + interval '2 days',
@@ -29,16 +31,18 @@ INSERT INTO auction.auctions (
   'ACTIVA'
 );
 
--- 0018: la subasta creada sin copia de la obra la recibe desde catalog.lots.
+-- 0020: no queda ninguna lectura entre esquemas y la copia es obligatoria.
 DO $$
 BEGIN
-  IF NOT EXISTS (
-    SELECT 1 FROM auction.auctions
-    WHERE id = 'cccccccc-cccc-4ccc-8ccc-ccccccccccc1'
-      AND seller_id = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1'
-      AND lot_title = 'Obra assert'
+  IF EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'auctions_fill_lot_copy') THEN
+    RAISE EXCEPTION 'auctions_fill_lot_copy should have been dropped by 0020';
+  END IF;
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'auction' AND table_name = 'auctions'
+      AND column_name IN ('seller_id', 'lot_title') AND is_nullable = 'YES'
   ) THEN
-    RAISE EXCEPTION 'auctions_fill_lot_copy did not copy seller and title';
+    RAISE EXCEPTION 'auction.auctions copy columns must be NOT NULL';
   END IF;
 END $$;
 
