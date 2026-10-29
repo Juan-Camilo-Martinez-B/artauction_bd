@@ -13,7 +13,7 @@ Las referencias cruzadas son UUID. Un informe en Mongo apunta al lote de Postgre
 
 ## Esquema por servicio
 
-Desde `v0.4.0` cada microservicio del backend es dueño de un esquema y se conecta con un rol que no ve los demás. No hay llaves foráneas entre esquemas; la integridad entre servicios la sostienen los eventos del outbox. Mientras el monolito siga activo, `public` conserva vistas de compatibilidad con los nombres de siempre. El detalle, los roles y el outbox están en [docs/modelo-datos/esquemas-por-servicio.md](docs/modelo-datos/esquemas-por-servicio.md).
+Desde `v0.4.0` cada microservicio del backend es dueño de un esquema y se conecta con un rol que no ve los demás. No hay llaves foráneas entre esquemas; la integridad entre servicios la sostienen los eventos del outbox. Desde `v0.8.0` ya no quedan vistas de compatibilidad: `public` solo guarda el registro de migraciones. El detalle, los roles y el outbox están en [docs/modelo-datos/esquemas-por-servicio.md](docs/modelo-datos/esquemas-por-servicio.md).
 
 ## Diseño que las migraciones deben respetar
 
@@ -79,4 +79,4 @@ La semilla SQL crea cuatro cuentas con la contraseña local `DevPassword!234`. N
 
 ## Estado
 
-Tag `v0.7.0`: cola de auditorías y caché de evaluaciones de la IA en `audit`, y retiro del trigger transitorio de 0018 (ya no hay lecturas entre esquemas). `v0.6.0`: copia del vendedor y del título en `auction.auctions` para auction-service. `v0.5.0`: recargas idempotentes, reservas TCC y comisión por venta. `v0.4.0`: un esquema por microservicio, roles aislados, outbox e inbox. `v0.3.0`: categorías, tipo de representación y galería personal.
+Tag `v0.8.0`: retiro de las vistas de compatibilidad de `public` y de los esquemas sin uso `pgboss` y `audit_queue`. `v0.7.0`: cola de auditorías y caché de evaluaciones de la IA en `audit`, y retiro del trigger transitorio de 0018 (ya no hay lecturas entre esquemas). `v0.6.0`: copia del vendedor y del título en `auction.auctions` para auction-service. `v0.5.0`: recargas idempotentes, reservas TCC y comisión por venta. `v0.4.0`: un esquema por microservicio, roles aislados, outbox e inbox. `v0.3.0`: categorías, tipo de representación y galería personal.

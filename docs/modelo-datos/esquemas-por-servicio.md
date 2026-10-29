@@ -11,9 +11,8 @@ Desde `v0.4.0` el backend es un conjunto de microservicios. Cada uno es dueño e
 | `auction`     | auction-service  | `auctions`, `bids`, `transactions`, `outbox`, `inbox`                                                     |
 | `wallet`      | wallet-service   | `wallets`, `payment_orders`, `wallet_entries`, `bid_holds`, `hold_reservations`, `platform_fees`, `inbox` |
 | `audit`       | audit-service    | `audit_summaries`, `audit_requests`, `ai_assessments`, `outbox`, `inbox`                                  |
-| `audit_queue` | audit-service    | tablas propias de pg-boss, creadas al arrancar                                                            |
 | `gallery`     | gallery-service  | `follows`, `personal_galleries`, `personal_gallery_artworks`, `inbox`                                     |
-| `public`      | ninguno          | `schema_migrations` y vistas de compatibilidad temporales                                                 |
+| `public`      | ninguno          | `schema_migrations` (registro de migraciones)                                   |
 
 ```mermaid
 flowchart LR
@@ -82,8 +81,8 @@ npm run roles
 3. Se crean los roles, el outbox y el inbox.
 4. Se crean vistas en `public` con el nombre de cada tabla. Son vistas simples que Postgres actualiza de forma automática: el monolito sigue funcionando sin cambios mientras dura la migración del backend, incluidos `INSERT ... ON CONFLICT` y `SELECT ... FOR UPDATE`.
 
-La fase contract es una migración posterior que elimina las vistas cuando el monolito deje de desplegarse.
+La fase contract fue la migración `0021` (F9): con el monolito retirado, eliminó las 16 vistas y los esquemas sin uso `pgboss` (la cola del monolito) y `audit_queue` (reservado para pg-boss y nunca usado; audit-service usa `audit.audit_requests`).
 
 ## Mongo
 
-Mongo sigue los mismos límites con una base por servicio (`artauction_identity`, `artauction_audit`, `artauction_gallery`, `artauction_notification`). Cada colección se mueve a su base cuando su servicio entra en producción, no antes, para no dejar al monolito sin datos. Desde F7 audit-service guarda los informes completos (expediente de evidencias y evaluación) en `artauction_audit.audit_reports`.
+Mongo sigue los mismos límites con una base por servicio (`artauction_identity`, `artauction_audit`, `artauction_gallery`, `artauction_notification`). Cada colección se movió a su base cuando su servicio entró en producción: los informes de auditoría en F7, y la galería social y los avisos en F8. La base `artauction` del monolito ya no la usa ningún servicio; solo conserva sesiones y registros antiguos del monolito. Desde F7 audit-service guarda los informes completos (expediente de evidencias y evaluación) en `artauction_audit.audit_reports`.

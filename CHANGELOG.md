@@ -6,6 +6,23 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-10-29
+
+### Removed
+
+- Las 16 vistas de compatibilidad de `public` (contract de 0016). Con el monolito retirado ningún servicio lee `public`; solo queda `schema_migrations`.
+- Esquema `pgboss`, la cola de auditoría del monolito. audit-service usa `audit.audit_requests` desde 0.7.0.
+- Esquema `audit_queue`, reservado para pg-boss en 0016 y nunca usado.
+
+### Changed
+
+- La imagen de Docker trae además los scripts de logins y de semilla, para que el docker compose del backend prepare una base vacía. Su comando por defecto sigue siendo aplicar las migraciones.
+- `.gitattributes` fuerza LF en los `.sh`: con CRLF, al clonar en Windows, bash falla dentro de los contenedores.
+
+### Fixed
+
+- La semilla `003_auctions.sql` da a la subasta su `seller_id` y su `lot_title`, obligatorios desde 0.7.0; antes los completaba el trigger que 0020 eliminó.
+
 ## [0.7.0] - 2026-10-29
 
 ### Added
