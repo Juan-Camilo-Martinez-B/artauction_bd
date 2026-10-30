@@ -6,6 +6,31 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-10-30
+
+PostgreSQL pasa a ser el único motor. Pensado para desplegar en un solo plan gratuito en la nube: una base, un respaldo, una credencial por servicio.
+
+### Added
+
+- `0022_documents_to_postgres.sql`. Las colecciones de Mongo pasan a ser tablas en el esquema de su dueño:
+  - `identity.refresh_sessions`. El índice TTL de Mongo se reemplaza por `refresh_sessions_expires_idx`, que usa el barrido de identity-service.
+  - `audit.reports`: el informe completo, 1 a 1 con su resumen y con FK a `audit_summaries`. El expediente y la evaluación van en JSONB. Se escribe en la misma transacción que el resumen.
+  - `gallery.items` y `gallery.activity`, con los ids deterministas de gallery-service.
+  - El esquema `notification`, con `notifications`, `inbox` y el rol `notification_rw`.
+- Login `notification_svc` en `create-logins.sh` (`NOTIFICATION_DB_PASSWORD`).
+- Semilla `006_documents.sql`: informes con el formato actual de audit-service, galería social y feed. La cola de revisión muestra la evidencia de la obra anacrónica de la semilla.
+- La aserción de aislamiento incluye `notification`, y la CI comprueba que su login no lee otros esquemas.
+
+### Removed
+
+- `audit_summaries.mongo_report_id`: el informe ahora usa como llave el id del resumen.
+- MongoDB: `mongo/` (esquemas Mongoose e índices), `scripts/seed/mongo-samples.mjs`, `scripts/backup/mongo.sh`, los scripts `indexes:mongo` y `backup:mongo`, la dependencia `mongoose` y el job de Mongo en la CI.
+- La colección `event_logs`, que ningún servicio usaba desde que se retiró el monolito. No tiene reemplazo.
+
+### Changed
+
+- La semilla `002_artworks.sql` registra quién decidió cada auditoría (`decided_by`).
+
 ## [0.8.0] - 2026-10-29
 
 ### Removed
