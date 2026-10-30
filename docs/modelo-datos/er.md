@@ -1,6 +1,6 @@
 # Modelo de datos
 
-Postgres guarda lo que debe ser consistente bajo una transacción (cuentas, lotes, pujas, liquidación). Mongo guarda documentos de auditoría, la galería y el feed. La referencia cruzada es un UUID. No hay una transacción que abarque los dos motores: primero se confirma Postgres y después se escribe Mongo.
+Todo vive en PostgreSQL, un esquema por servicio. Lo que debe ser consistente bajo una transacción (cuentas, lotes, pujas, liquidación) va en columnas con restricciones. Lo anidado (informes de auditoría, payload de los avisos) va en JSONB dentro del esquema de su dueño. Hasta `v0.8.0` esos documentos vivían en MongoDB.
 
 El visitante no tiene fila en `users`. Los roles persistidos son `USER`, `SELLER` y `ADMIN`.
 
@@ -32,7 +32,7 @@ erDiagram
 | `auctions` | Una subasta por lote. Si cierra sin venta, la misma fila se reprograma. `ends_at` es el cierre vigente. |
 | `bids` | Puja con `idempotency_key` único. `winning_bid_id` en la subasta apunta a la puja ganadora. |
 | `transactions` | Como máximo una liquidación por subasta. Comprador y vendedor son distintos. |
-| `audit_summaries` | Score, rango de precio y veredicto. `mongo_report_id` apunta al informe completo. |
+| `audit_summaries` | Score, rango de precio, veredicto y quién decidió (`RULES`, `AI` o `FALLBACK`). |
 | `follows` | Arista dirigida. Una cuenta no puede seguirse a sí misma. |
 
 Transiciones de lote que el servicio de catálogo debe respetar:
@@ -45,21 +45,26 @@ Transiciones de lote que el servicio de catálogo debe respetar:
 
 `APROBADO` y `CERRADO` siguen aceptados para filas anteriores. `current_price` no baja y `ends_at` no se adelanta, salvo el retiro de la puja ganadora y la reprogramación, que lo hacen dentro de la transacción. El contrato de artacoins, retenciones y calendario está en `subastas-artacoins.md`.
 
-## Documentos
+## Documentos en JSONB (desde 0022)
 
 ```mermaid
 erDiagram
-  audit_summaries ||--|| audit_reports : mongo_report_id
-  lots ||--o{ gallery_items : lotId
-  users ||--o{ gallery_items : ownerId
-  users ||--o{ activity_feed : actorId
+  audit_summaries ||--|| reports : summary_id
+  lots ||--o{ items : lot_id
+  users ||--o{ items : owner_id
+  users ||--o{ activity : actor_id
+  users ||--o{ refresh_sessions : user_id
+  users ||--o{ notifications : user_id
 ```
 
-| Colección | Papel |
-|---|---|
-| `audit_reports` | Modelo, versión de prompt, entrada, hallazgos y fecha. `summaryId` es único y corresponde a `audit_summaries.id`. |
-| `gallery_items` | Obra propia, ganada o gratuita. La visibilidad es `PUBLIC` o `PRIVATE` por pieza. |
-| `activity_feed` | Verbos `PUBLISH`, `BID`, `WIN`, `FOLLOW`, `AUDIT`. El muro público filtra `visibility = PUBLIC`. |
-| `event_logs` | Bitácora técnica con `correlationId`. Un índice TTL borra documentos a los 90 días. |
+Solo `audit.reports` → `audit.audit_summaries` es una llave foránea, porque está dentro del mismo esquema. Las demás aristas cruzan servicios: son UUID sin llave.
 
-Una obra con `gallery_items.visibility = PRIVATE` o `lots.visibility = PRIVATE` no entra en los índices de lectura pública (`lots_public_catalog_idx`, `gallery_items_public_owner`).
+| Tabla | Papel |
+|---|---|
+| `audit.reports` | Informe completo, 1 a 1 con su resumen: expediente de evidencias y evaluación en JSONB. Se guarda en la misma transacción que el resumen. |
+| `gallery.items` | Obra propia, ganada o gratuita. La visibilidad es `PUBLIC` o `PRIVATE` por pieza. El id es determinista (`PROPIA:<obra>:<dueña>`). |
+| `gallery.activity` | Verbos `PUBLISH`, `BID`, `WIN`, `FOLLOW`, `AUDIT`. El feed lee lo público con un índice parcial `WHERE visibility = 'PUBLIC'`. |
+| `identity.refresh_sessions` | Hash SHA-256 del refresh, su familia y su vencimiento. identity borra las vencidas con un barrido, lo que en Mongo hacía un índice TTL. |
+| `notification.notifications` | Aviso con su payload en JSONB. El id es `<evento>:<destinatario>`, así un evento repetido no duplica el aviso. |
+
+Una obra con `gallery.items.visibility = PRIVATE` o `lots.visibility = PRIVATE` no aparece en las lecturas públicas.

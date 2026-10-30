@@ -168,11 +168,11 @@ BEGIN
     RAISE EXCEPTION '% foreign keys cross schemas', crossing;
   END IF;
 
-  FOREACH service IN ARRAY ARRAY['identity', 'catalog', 'auction', 'wallet', 'audit', 'gallery'] LOOP
+  FOREACH service IN ARRAY ARRAY['identity', 'catalog', 'auction', 'wallet', 'audit', 'gallery', 'notification'] LOOP
     IF NOT has_schema_privilege(service || '_rw', service, 'USAGE') THEN
       RAISE EXCEPTION 'role %_rw cannot use schema %', service, service;
     END IF;
-    FOREACH other IN ARRAY ARRAY['identity', 'catalog', 'auction', 'wallet', 'audit', 'gallery'] LOOP
+    FOREACH other IN ARRAY ARRAY['identity', 'catalog', 'auction', 'wallet', 'audit', 'gallery', 'notification'] LOOP
       IF other <> service AND has_schema_privilege(service || '_rw', other, 'USAGE') THEN
         RAISE EXCEPTION 'role %_rw can use foreign schema %', service, other;
       END IF;
@@ -181,6 +181,13 @@ BEGIN
 
   IF to_regclass('auction.outbox') IS NULL OR to_regclass('wallet.inbox') IS NULL THEN
     RAISE EXCEPTION 'missing outbox or inbox tables';
+  END IF;
+
+  -- Desde 0022 no hay Mongo: cada documento vive en una tabla de su dueno.
+  IF to_regclass('identity.refresh_sessions') IS NULL OR to_regclass('audit.reports') IS NULL
+     OR to_regclass('gallery.items') IS NULL OR to_regclass('gallery.activity') IS NULL
+     OR to_regclass('notification.notifications') IS NULL OR to_regclass('notification.inbox') IS NULL THEN
+    RAISE EXCEPTION 'missing tables that replaced the mongo collections';
   END IF;
 END $$;
 

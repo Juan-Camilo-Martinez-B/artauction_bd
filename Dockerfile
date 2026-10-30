@@ -14,7 +14,6 @@ COPY package.json package-lock.json ./
 RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
 COPY postgres/migrations ./postgres/migrations
 COPY postgres/seeds ./postgres/seeds
-COPY mongo ./mongo
 COPY scripts/migrate ./scripts/migrate
 COPY scripts/roles ./scripts/roles
 COPY scripts/seed ./scripts/seed

@@ -10,7 +10,7 @@ if [[ -z "${DATABASE_URL:-}" ]]; then
   exit 1
 fi
 
-for service in identity catalog auction wallet audit gallery; do
+for service in identity catalog auction wallet audit gallery notification; do
   var="$(echo "${service}" | tr '[:lower:]' '[:upper:]')_DB_PASSWORD"
   password="${!var:-}"
   if [[ -z "${password}" ]]; then

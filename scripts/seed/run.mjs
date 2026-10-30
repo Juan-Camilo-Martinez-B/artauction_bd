@@ -2,7 +2,6 @@ import { spawn } from 'node:child_process';
 import { readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { seedMongo } from './mongo-samples.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
@@ -32,10 +31,4 @@ const seedDir = path.join(root, 'postgres/seeds');
 const files = (await readdir(seedDir)).filter((name) => name.endsWith('.sql')).sort();
 for (const name of files) {
   await runPsql(path.join(seedDir, name));
-}
-
-if (process.env.MONGODB_URI) {
-  await seedMongo(process.env.MONGODB_URI);
-} else {
-  console.log('MONGODB_URI is not set; mongo samples were skipped');
 }

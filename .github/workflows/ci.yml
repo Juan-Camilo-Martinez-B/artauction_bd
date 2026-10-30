@@ -40,7 +40,7 @@ jobs:
       - name: Assert bid invariants
         run: bash scripts/migrate/assert.sh
 
-      - name: Seed relational data
+      - name: Seed data
         run: |
           for file in postgres/seeds/*.sql; do
             psql -v ON_ERROR_STOP=1 -q -f "$file" "$DATABASE_URL"
@@ -57,6 +57,18 @@ jobs:
             exit 1
           fi
 
+      # notification es el esquema mas nuevo (0022): su login ve sus avisos y nada mas.
+      - name: Notification login is isolated
+        run: |
+          export NOTIFICATION_DB_PASSWORD="$(openssl rand -base64 24)"
+          bash scripts/roles/create-logins.sh
+          login="postgresql://notification_svc:$(python3 -c 'import os,urllib.parse;print(urllib.parse.quote(os.environ["NOTIFICATION_DB_PASSWORD"],safe=""))')@localhost:5432/artauction"
+          test "$(psql -tA -c 'select count(*) >= 0 from notifications' "$login")" = "t"
+          if psql -tA -c 'select 1 from gallery.items limit 1' "$login" 2>/dev/null; then
+            echo "notification_svc read gallery.items" >&2
+            exit 1
+          fi
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -65,40 +77,6 @@ jobs:
 
       - name: Validate Prisma schema
         run: npm ci && npm run prisma:validate
-
-  mongo:
-    name: mongo indexes
-    runs-on: ubuntu-latest
-    services:
-      mongo:
-        image: mongo:7
-        ports:
-          - 27017:27017
-        options: >-
-          --health-cmd "mongosh --quiet --eval 'db.runCommand({ ping: 1 }).ok'"
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 20
-    env:
-      MONGODB_URI: mongodb://localhost:27017/artauction
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Create indexes
-        run: npm run indexes:mongo
-
-      - name: Load mongo samples
-        run: node scripts/seed/mongo-samples.mjs
 
   # Imagen db-setup que usa el docker compose del backend para migrar, crear
   # los logins de servicio y sembrar la base.

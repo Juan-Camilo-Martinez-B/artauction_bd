@@ -35,12 +35,8 @@ Hoy `auctions.lot_id` es único: un lote tiene una sola subasta. Para permitir o
 
 Quitar el unique y crear el parcial en la misma migración rompe el backend que asume una subasta por lote.
 
-## Los dos motores
+## Un solo motor (desde 0022)
 
-`audit_summaries.mongo_report_id` y `gallery_items.lotId` son UUID, no claves foráneas. El orden de escritura es:
+Hasta `v0.8.0` el informe de auditoría vivía en Mongo y su resumen en Postgres, sin una transacción común. 0022 los dejó a los dos en el esquema `audit`: `audit.reports` usa como llave el id del resumen, con FK, y se escribe en la misma transacción. Ya no hay un orden de escritura entre motores que cuidar.
 
-1. Confirmar la fila en Postgres.
-2. Escribir el documento en Mongo.
-3. Si Mongo falla, la fila relacional sigue siendo válida y el trabajo se reintenta. No se compensa con un rollback distribuido.
-
-Borrar en el sentido contrario (Mongo primero) dejaría un resumen que apunta a un informe que ya no está. La retención de `event_logs` (90 días) no toca Postgres.
+0022 no siguió expand/contract. Los documentos no se copiaron desde Mongo (la semilla los recrea) y la base y el backend se publicaron juntos, así que ninguna versión anterior del backend corre contra el esquema nuevo. Si hubiera datos de producción en Mongo, el camino sería: expand (crear las tablas), copiar, desplegar el backend que lee Postgres y, al final, contract (quitar `mongo_report_id`).
