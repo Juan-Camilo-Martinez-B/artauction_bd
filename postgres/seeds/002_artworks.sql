@@ -81,21 +81,19 @@ ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO audit.audit_summaries (
   id, lot_id, score, price_min, price_max, verdict, has_critical_inconsistency,
-  mongo_report_id, model_name, prompt_version
+  model_name, prompt_version, decided_by
 )
 VALUES
   (
     'e0000000-0000-4000-8000-000000000001',
     'b0000000-0000-4000-8000-000000000001',
     86, 2400.00, 3800.00, 'APROBADO', false,
-    'f0000000-0000-4000-8000-000000000001',
-    'gemini-2.5-flash', 'v1'
+    'gemini-2.5-flash', 'v2', 'AI'
   ),
   (
     'e0000000-0000-4000-8000-000000000003',
     'b0000000-0000-4000-8000-000000000003',
     28, 50.00, 120.00, 'REVISION_MANUAL', true,
-    'f0000000-0000-4000-8000-000000000003',
-    'gemini-2.5-flash', 'v1'
+    'rules', 'none', 'RULES'
   )
 ON CONFLICT (id) DO NOTHING;
