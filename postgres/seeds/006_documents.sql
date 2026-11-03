@@ -112,10 +112,10 @@ VALUES
     'PROPIA', 'PRIVATE', 'Estudio con pigmento moderno', 'Atribución dudosa', '{}', '2026-09-30T12:00:00Z'
   ),
   (
-    'GRATUITA:seed:a0000000-0000-4000-8000-000000000003:lamina-de-estudio',
+    'PROPIA:b0000000-0000-4000-8000-000000000050:a0000000-0000-4000-8000-000000000003',
     'a0000000-0000-4000-8000-000000000003',
-    NULL,
-    'GRATUITA', 'PUBLIC', 'Lámina de estudio', 'Taller abierto', '{}', '2026-09-30T12:00:00Z'
+    'b0000000-0000-4000-8000-000000000050',
+    'PROYECTO', 'PUBLIC', 'Lámina de estudio', 'Leo', '{}', '2026-09-30T12:00:00Z'
   )
 ON CONFLICT (id) DO NOTHING;
 
