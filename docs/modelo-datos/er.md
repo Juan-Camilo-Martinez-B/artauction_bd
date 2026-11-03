@@ -31,8 +31,8 @@ erDiagram
 | `lots` | Obra. Tras la auditoría aprobada queda `PUBLICADA`, pasa a `EN_SUBASTA` y termina en `VENDIDA` o vuelve a `PUBLICADA`. El detalle está en `subastas-artacoins.md`. |
 | `lot_images` | Clave del objeto en Cloud Storage, orden y hash perceptual. El binario no está aquí. |
 | `lot_reviews` | Historial de decisiones del administrador (desde 0026): aprobar, con el rango de precio que fijó; devolver a borrador, con el motivo que ve el vendedor; o pedir otra auditoría. |
-| `auctions` | Una subasta por lote. Si cierra sin venta, la misma fila se reprograma. `ends_at` es el cierre vigente. |
-| `bids` | Puja con `idempotency_key` único. `winning_bid_id` en la subasta apunta a la puja ganadora. |
+| `auctions` | Una subasta por lote. Si cierra sin venta, la misma fila se reprograma. `ends_at` es el cierre vigente. `buy_now_price` (siempre mayor que la salida) es el precio de compra inmediata; `closed_by` dice si cerró por tiempo (`TIME`) o por compra inmediata (`BUY_NOW`), y solo existe en una sala `CERRADA`. |
+| `bids` | Puja con `idempotency_key` único. `kind` es `BID` o `BUY_NOW`: la compra inmediata se guarda como la puja ganadora. `winning_bid_id` en la subasta apunta a la puja ganadora. |
 | `transactions` | Como máximo una liquidación por subasta. Comprador y vendedor son distintos. |
 | `audit_summaries` | Score, rango de precio, veredicto y quién decidió (`RULES`, `AI` o `FALLBACK`). |
 | `follows` | Arista dirigida. Una cuenta no puede seguirse a sí misma. |
@@ -68,8 +68,8 @@ Solo `audit.reports` → `audit.audit_summaries` es una llave foránea, porque e
 |---|---|
 | `audit.reports` | Informe completo, 1 a 1 con su resumen: expediente de evidencias y evaluación en JSONB. Se guarda en la misma transacción que el resumen. |
 | `gallery.items` | Lo que es de cada persona: `PROYECTO` (proyecto propio sin auditar), `PROPIA` (obra suya en el catálogo, aún sin vender) o `GANADA` (ganada en subasta). Una sola entrada por obra y dueña (`items_owner_lot_uidx`); al venderse, la obra pasa del autor al ganador. La sala 3D solo cuelga obras que su dueña tiene aquí. La visibilidad es `PUBLIC` o `PRIVATE` por pieza. El id es determinista (`PROPIA:<obra>:<dueña>` para lo del autor). |
-| `gallery.activity` | Verbos `PUBLISH`, `BID`, `WIN`, `FOLLOW`, `AUDIT`. El feed lee lo público con un índice parcial `WHERE visibility = 'PUBLIC'`. |
+| `gallery.activity` | Verbos `PUBLISH`, `BID`, `WIN`, `BUY_NOW`, `FOLLOW`, `AUDIT`. El feed lee lo público con un índice parcial `WHERE visibility = 'PUBLIC'`. |
 | `identity.refresh_sessions` | Hash SHA-256 del refresh, su familia y su vencimiento. identity borra las vencidas con un barrido, lo que en Mongo hacía un índice TTL. |
-| `notification.notifications` | Aviso con su payload en JSONB. El id es `<evento>:<destinatario>`, así un evento repetido no duplica el aviso. |
+| `notification.notifications` | Aviso con su payload en JSONB: `AUDIT`, `AUCTION_CLOSED` (ganador y vendedor), `AUCTION_LOST` (los demás postores) y `LOT_RETURNED`. El id es `<evento>:<destinatario>`, así un evento repetido no duplica el aviso. |
 
 Una obra con `gallery.items.visibility = PRIVATE` o `lots.visibility = PRIVATE` no aparece en las lecturas públicas.

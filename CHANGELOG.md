@@ -6,6 +6,20 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+## [0.13.0] - 2026-11-03
+
+Compra inmediata en las subastas (F14 de la plataforma).
+
+### Added
+
+- `0030_buy_now.sql`: `auction.auctions.buy_now_price` (obligatorio y mayor que la salida; las salas existentes lo reciben con la salida por 3, redondeada hacia arriba a múltiplos de 50), `auction.auctions.closed_by` (`TIME` o `BUY_NOW`, solo en salas cerradas; las cerradas existentes quedan `TIME`) y `auction.bids.kind` (`BID` o `BUY_NOW`).
+- `0031_buy_now_notices.sql`: el aviso `AUCTION_LOST` para los postores de una sala que cerró y el verbo `BUY_NOW` del feed.
+- Comprobaciones en `assert.sql`: compra inmediata por debajo de la salida y sala cerrada sin motivo.
+
+### Changed
+
+- La semilla `003_auctions.sql` da a su subasta un precio de compra inmediata.
+
 ## [0.12.0] - 2026-11-03
 
 Proyectos propios y propiedad de las obras (F13 de la plataforma).

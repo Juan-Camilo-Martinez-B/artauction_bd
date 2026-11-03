@@ -18,13 +18,13 @@ VALUES (
 );
 
 INSERT INTO auction.auctions (
-  id, lot_id, seller_id, lot_title, start_price, current_price, min_increment, starts_at, ends_at, initial_ends_at, status
+  id, lot_id, seller_id, lot_title, start_price, current_price, min_increment, buy_now_price, starts_at, ends_at, initial_ends_at, status
 ) VALUES (
   'cccccccc-cccc-4ccc-8ccc-ccccccccccc1',
   'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
   'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1',
   'Obra assert',
-  100, 100, 10,
+  100, 100, 10, 300,
   now() - interval '1 hour',
   now() + interval '2 days',
   now() + interval '1 day',
@@ -56,6 +56,25 @@ BEGIN
   SET current_price = 120
   WHERE id = 'cccccccc-cccc-4ccc-8ccc-ccccccccccc1';
   RAISE EXCEPTION 'price decrease was accepted';
+EXCEPTION
+  WHEN check_violation THEN
+    NULL;
+END $$;
+
+-- 0030: la compra inmediata siempre supera la salida y una sala cerrada dice por que cerro.
+DO $$
+BEGIN
+  UPDATE auction.auctions SET buy_now_price = 100 WHERE id = 'cccccccc-cccc-4ccc-8ccc-ccccccccccc1';
+  RAISE EXCEPTION 'buy now price below the opening price was accepted';
+EXCEPTION
+  WHEN check_violation THEN
+    NULL;
+END $$;
+
+DO $$
+BEGIN
+  UPDATE auction.auctions SET status = 'CERRADA' WHERE id = 'cccccccc-cccc-4ccc-8ccc-ccccccccccc1';
+  RAISE EXCEPTION 'closed auction without closed_by was accepted';
 EXCEPTION
   WHEN check_violation THEN
     NULL;
