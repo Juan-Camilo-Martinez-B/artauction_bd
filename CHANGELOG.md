@@ -6,6 +6,15 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-11-03
+
+Ciclo de revisión y auditoría local (F12 de la plataforma).
+
+### Added
+
+- `0026_review_cycle.sql`: tabla `catalog.lot_reviews` con el historial de decisiones del administrador (`APPROVE`, `RETURN_TO_DRAFT` o `REAUDIT`). Devolver a borrador exige un motivo de 10 a 500 caracteres, y aprobar puede fijar el rango de precio. `decided_by` de `audit.audit_summaries` y `audit.reports` admite `LOCAL`: la auditoría que hizo la evaluación local porque Gemini no respondió.
+- `0027_lot_returned_notifications.sql`: el aviso `LOT_RETURNED`, que recibe el vendedor con el motivo de la devolución.
+
 ## [0.10.0] - 2026-11-02
 
 Subastas rotativas del catálogo (F11 de la plataforma).
