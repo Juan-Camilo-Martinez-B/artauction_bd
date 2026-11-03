@@ -78,6 +78,12 @@ Se puede abandonar la sala solo cuando faltan al menos 4 minutos para `ends_at`,
 
 El trigger que impide bajar `current_price` sigue activo. El retiro y la reprogramación lo cruzan solo con `set_config('artauction.allow_auction_rewind', 'on', true)` dentro de la misma transacción.
 
+## Compra inmediata (desde 0030)
+
+Cada sala tiene un precio de compra inmediata: la salida por 3, redondeado hacia arriba a múltiplos de 50 (600 da 1 800). Lo fija auction-service al crear la sala (`BUY_NOW_FACTOR`) y no cambia. Se ofrece solo con la sala `ACTIVA` y mientras el precio actual no llegue al 80 % de ese valor.
+
+Comprar es una puja especial (`bids.kind = 'BUY_NOW'`) por ese importe: usa la misma retención y la misma clave de idempotencia, gana la sala y la cierra en la misma transacción, con `closed_by = 'BUY_NOW'`. Desde ahí sigue el cierre de siempre.
+
 ## Cierre
 
 Con puja ganadora: la subasta queda `CERRADA`, la obra `VENDIDA` y privada, la retención del ganador se canjea por la obra y el resto de retenciones vuelve a cada bolsillo. La transacción queda `COMPLETADA`. Sin pujas activas: nadie paga, la obra vuelve a `PUBLICADA` y el servidor agenda otra apertura futura.
