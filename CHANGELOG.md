@@ -6,6 +6,8 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+## [0.12.0] - 2026-11-03
+
 Proyectos propios y propiedad de las obras (F13 de la plataforma).
 
 ### Added
