@@ -16,6 +16,26 @@ El incremento mínimo lo pone el sistema: el 5 % del precio inicial, y nunca men
 
 La fecha y la hora de apertura las elige el servidor, no la IA ni el navegador. El inicio cae al azar entre 15 minutos y 48 horas después del `now` del servidor. El cierre es ese inicio más la duración. Una fecha calculada no puede quedar en el pasado. Si la sala termina sin venta, se anulan las pujas activas, se liberan las retenciones y se vuelve a sortear una ventana futura. La obra regresa a `PUBLICADA`.
 
+## Subastas rotativas del catálogo (desde 0023)
+
+Además de las salas que nacen al aprobar una obra, auction-service mantiene una cartelera: siempre hay `AUTO_AUCTION_SLOTS` salas (3 por defecto) activas o por abrir pronto. Cuando falta alguna, elige al azar una obra `PUBLICADA` sin subasta y programa una sala corta:
+
+- abre entre 1 y 5 minutos después;
+- dura entre 15 y 30 minutos;
+- la salida es el punto medio de la auditoría por `AUTO_AUCTION_PRICE_FACTOR` (0,1 por defecto), con un mínimo de 50.
+
+El dinero sigue el flujo normal: el vendedor de la obra cobra el precio menos la comisión. Por eso `auctions_duration_minutes_check` acepta de 1 a 180 minutos. El mínimo de 30 de las salas por score lo aplica auction-service.
+
+Cada sala guarda su origen en `origin` (desde 0024):
+
+| Origen | Quién la crea |
+|---|---|
+| `SCHEDULED` | el programador, al aprobar la obra |
+| `MANUAL` | el vendedor o un administrador con sus términos |
+| `ROTATION` | la cartelera |
+
+Una sala `ROTATION` que cierra sin pujas se reprograma lejos, como cualquier otra. Cuando la cartelera tiene un hueco, la rotación elige al azar entre obras sin subasta y estas salas recicladas, y adelanta las recicladas. Así la cartelera no se vacía cuando todas las obras ya tienen sala. Las salas `SCHEDULED` y `MANUAL` nunca se mueven.
+
 ## Estados de la obra
 
 | Estado | Dónde se ve |
