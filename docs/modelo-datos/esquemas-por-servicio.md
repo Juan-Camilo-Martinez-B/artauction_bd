@@ -7,7 +7,7 @@ Desde `v0.4.0` el backend es un conjunto de microservicios. Cada uno es dueño e
 | Esquema       | Servicio         | Tablas                                                                                                    |
 | ------------- | ---------------- | --------------------------------------------------------------------------------------------------------- |
 | `identity`    | identity-service | `users`, `refresh_sessions`                                                                               |
-| `catalog`     | catalog-service  | `lots`, `lot_images`, `categories`, `lot_categories`, `outbox`, `inbox`                                   |
+| `catalog`     | catalog-service  | `lots`, `lot_images`, `lot_reviews`, `categories`, `lot_categories`, `outbox`, `inbox`                    |
 | `auction`     | auction-service  | `auctions`, `bids`, `transactions`, `outbox`, `inbox`                                                     |
 | `wallet`      | wallet-service   | `wallets`, `payment_orders`, `wallet_entries`, `bid_holds`, `hold_reservations`, `platform_fees`, `inbox` |
 | `audit`       | audit-service    | `audit_summaries`, `reports`, `audit_requests`, `ai_assessments`, `outbox`, `inbox`                       |

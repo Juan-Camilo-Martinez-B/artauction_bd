@@ -16,6 +16,7 @@ erDiagram
   users ||--o{ follows : sigue
   users ||--o{ follows : es_seguido
   lots ||--o{ lot_images : ilustra
+  lots ||--o{ lot_reviews : revisa
   lots ||--o| auctions : subasta
   lots ||--o{ audit_summaries : resume
   lots ||--o{ transactions : liquida
@@ -29,6 +30,7 @@ erDiagram
 | `users` | Cuenta, rol y visibilidad del perfil. El correo se guarda en minúsculas. |
 | `lots` | Obra. Tras la auditoría aprobada queda `PUBLICADA`, pasa a `EN_SUBASTA` y termina en `VENDIDA` o vuelve a `PUBLICADA`. El detalle está en `subastas-artacoins.md`. |
 | `lot_images` | Clave del objeto en Cloud Storage, orden y hash perceptual. El binario no está aquí. |
+| `lot_reviews` | Historial de decisiones del administrador (desde 0026): aprobar, con el rango de precio que fijó; devolver a borrador, con el motivo que ve el vendedor; o pedir otra auditoría. |
 | `auctions` | Una subasta por lote. Si cierra sin venta, la misma fila se reprograma. `ends_at` es el cierre vigente. |
 | `bids` | Puja con `idempotency_key` único. `winning_bid_id` en la subasta apunta a la puja ganadora. |
 | `transactions` | Como máximo una liquidación por subasta. Comprador y vendedor son distintos. |

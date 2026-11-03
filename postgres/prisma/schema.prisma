@@ -187,6 +187,21 @@ model lot_categories {
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model lot_reviews {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  lot_id     String   @db.Uuid
+  admin_id   String   @db.Uuid
+  decision   String
+  reason     String?
+  price_min  Decimal? @db.Decimal(12, 2)
+  price_max  Decimal? @db.Decimal(12, 2)
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  lots       lots     @relation(fields: [lot_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([lot_id, created_at(sort: Desc)], map: "lot_reviews_lot_created_idx")
+  @@schema("catalog")
+}
+
 model lot_images {
   id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   lot_id          String   @db.Uuid
@@ -227,6 +242,7 @@ model lots {
   representation_kind String?
   lot_categories      lot_categories[]
   lot_images          lot_images[]
+  lot_reviews         lot_reviews[]
 
   @@index([seller_id])
   @@index([status])
