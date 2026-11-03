@@ -6,6 +6,8 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+## [0.13.0] - 2026-11-03
+
 Compra inmediata en las subastas (F14 de la plataforma).
 
 ### Added
