@@ -6,6 +6,10 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-11-02
+
+Subastas rotativas del catálogo (F11 de la plataforma).
+
 ### Changed
 
 - `0023_rotating_auction_durations.sql`: `auctions_duration_minutes_check` acepta de 1 a 180 minutos, porque las subastas rotativas del catálogo duran de 15 a 30 por defecto. El mínimo de 30 minutos de las salas por score sigue en auction-service.
