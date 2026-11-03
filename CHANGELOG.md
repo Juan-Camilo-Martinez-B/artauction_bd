@@ -6,6 +6,23 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+## [0.12.0] - 2026-11-03
+
+Proyectos propios y propiedad de las obras (F13 de la plataforma).
+
+### Added
+
+- `0028_personal_works.sql`: estado `PERSONAL` en `catalog.lots`, para el proyecto propio que su autor sube solo a su galería. No pasa por auditoría ni se subasta, y el catálogo público no lo lista. Pasarlo al catálogo lo lleva a `PENDIENTE_AUDITORIA`.
+- Semilla: un proyecto propio público de `leo` en lugar de la lámina de prueba.
+
+### Changed
+
+- `0029_gallery_ownership.sql`: `gallery.items` registra lo que es de cada persona (`PROYECTO`, `PROPIA` o `GANADA`), con una entrada por obra y dueña (`items_owner_lot_uidx`) y `lot_id` obligatorio. Las obras ya vendidas dejan de ser del autor, y la sala 3D descuelga lo que su dueña no tiene en la galería.
+
+### Removed
+
+- El origen `GRATUITA` y sus filas: colgaba cualquier obra pública ajena y era una función de prueba.
+
 ## [0.11.0] - 2026-11-03
 
 Ciclo de revisión y auditoría local (F12 de la plataforma).

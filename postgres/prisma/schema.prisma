@@ -491,7 +491,7 @@ model activity {
 model items {
   id          String   @id
   owner_id    String   @db.Uuid
-  lot_id      String?  @db.Uuid
+  lot_id      String   @db.Uuid
   source      String
   visibility  String
   title       String
@@ -499,6 +499,7 @@ model items {
   image_keys  String[] @default([])
   acquired_at DateTime @db.Timestamptz(6)
 
+  @@unique([owner_id, lot_id], map: "items_owner_lot_uidx")
   @@index([owner_id, acquired_at(sort: Desc)], map: "items_owner_acquired_idx")
   @@schema("gallery")
 }

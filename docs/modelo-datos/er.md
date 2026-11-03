@@ -40,10 +40,13 @@ erDiagram
 Transiciones de lote que el servicio de catálogo debe respetar:
 
 - `BORRADOR` → `PENDIENTE_AUDITORIA`
+- `PERSONAL` → `PENDIENTE_AUDITORIA` (un proyecto propio pasa al catálogo y desde ahí se audita)
 - `PENDIENTE_AUDITORIA` → `PUBLICADA` o `REVISION_MANUAL`
 - `REVISION_MANUAL` → `PUBLICADA` o `BORRADOR`
 - `PUBLICADA` → `EN_SUBASTA`
 - `EN_SUBASTA` → `VENDIDA` o `PUBLICADA`
+
+`PERSONAL` es un proyecto propio: su autor lo subió solo para su galería. No se audita, no tiene score ni precio y nunca se subasta; el catálogo público no lo lista porque filtra por estado. Su visibilidad decide si se ve en la galería pública del autor.
 
 `APROBADO` y `CERRADO` siguen aceptados para filas anteriores. `current_price` no baja y `ends_at` no se adelanta, salvo el retiro de la puja ganadora y la reprogramación, que lo hacen dentro de la transacción. El contrato de artacoins, retenciones y calendario está en `subastas-artacoins.md`.
 
@@ -64,7 +67,7 @@ Solo `audit.reports` → `audit.audit_summaries` es una llave foránea, porque e
 | Tabla | Papel |
 |---|---|
 | `audit.reports` | Informe completo, 1 a 1 con su resumen: expediente de evidencias y evaluación en JSONB. Se guarda en la misma transacción que el resumen. |
-| `gallery.items` | Obra propia, ganada o gratuita. La visibilidad es `PUBLIC` o `PRIVATE` por pieza. El id es determinista (`PROPIA:<obra>:<dueña>`). |
+| `gallery.items` | Lo que es de cada persona: `PROYECTO` (proyecto propio sin auditar), `PROPIA` (obra suya en el catálogo, aún sin vender) o `GANADA` (ganada en subasta). Una sola entrada por obra y dueña (`items_owner_lot_uidx`); al venderse, la obra pasa del autor al ganador. La sala 3D solo cuelga obras que su dueña tiene aquí. La visibilidad es `PUBLIC` o `PRIVATE` por pieza. El id es determinista (`PROPIA:<obra>:<dueña>` para lo del autor). |
 | `gallery.activity` | Verbos `PUBLISH`, `BID`, `WIN`, `FOLLOW`, `AUDIT`. El feed lee lo público con un índice parcial `WHERE visibility = 'PUBLIC'`. |
 | `identity.refresh_sessions` | Hash SHA-256 del refresh, su familia y su vencimiento. identity borra las vencidas con un barrido, lo que en Mongo hacía un índice TTL. |
 | `notification.notifications` | Aviso con su payload en JSONB. El id es `<evento>:<destinatario>`, así un evento repetido no duplica el aviso. |

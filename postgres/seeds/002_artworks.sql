@@ -97,3 +97,28 @@ VALUES
     'rules', 'none', 'RULES'
   )
 ON CONFLICT (id) DO NOTHING;
+
+-- Proyecto propio de leo: lo subio solo para su galeria, sin auditoria ni
+-- precio, y lo hizo publico. Nunca aparece en el catalogo.
+INSERT INTO catalog.lots (
+  id, seller_id, title, description, artist_name, creation_year, materials,
+  width_cm, height_cm, depth_cm, provenance, status, visibility,
+  authenticity_score, suggested_price_min, suggested_price_max, currency
+)
+VALUES (
+  'b0000000-0000-4000-8000-000000000050',
+  'a0000000-0000-4000-8000-000000000003',
+  'Lámina de estudio',
+  'Ejercicio de luz y sombra hecho en el taller abierto del barrio.',
+  'Leo',
+  2025,
+  'Grafito sobre papel',
+  30.00, 42.00, NULL,
+  '',
+  'PERSONAL',
+  'PUBLIC',
+  NULL,
+  NULL, NULL,
+  'USD'
+)
+ON CONFLICT (id) DO NOTHING;
