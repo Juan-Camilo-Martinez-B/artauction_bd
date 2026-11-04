@@ -6,6 +6,8 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+## [0.16.0] - 2026-11-04
+
 Proveedor de IA neutral (F17 de la plataforma).
 
 ### Changed
