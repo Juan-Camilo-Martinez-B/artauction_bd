@@ -32,6 +32,7 @@ postgres/migrations   SQL versionado
 scripts/roles         usuarios con login por microservicio
 postgres/seeds        datos de ejemplo
 scripts/backup        respaldo de Postgres
+scripts/maintenance   limpieza de los datos que deja la prueba de punta a punta
 scripts/seed          carga de semillas
 docs/modelo-datos     diagrama y descripción del modelo
 CHANGELOG.md          historial semántico del esquema
@@ -75,6 +76,8 @@ npm run roles
 La semilla SQL crea cuatro cuentas con la contraseña local `DevPassword!234`. No sirve en producción.
 
 `npm run backup:postgres` escribe en `BACKUP_DIR` (por defecto `./backups`), que no se versiona.
+
+`npm run cleanup:e2e` borra las obras que deja la e2e del backend («E2E …», de cuentas `e2e-*`) y todo lo que depende de ellas: salas, auditorías, galería, sala 3D y avisos. Corre en una transacción, se aborta sin borrar nada si alguna tiene pujas o ventas, se niega a correr con `NODE_ENV=production` y conserva las cuentas. Las imágenes del bucket se limpian después con `npm run storage:prune` en `artauction_backend`.
 
 ## Estado
 
