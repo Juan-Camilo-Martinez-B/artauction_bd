@@ -61,6 +61,29 @@ EXCEPTION
     NULL;
 END $$;
 
+-- 0033: un modelo 3D valido se registra; uno con demasiados triangulos o una
+-- clave ajena a la obra, no.
+INSERT INTO catalog.lot_models (lot_id, object_key, bytes, triangle_count, vertex_count, size_x, size_y, size_z)
+VALUES ('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1', 'lots/bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1/model-abc123.glb', 1048576, 12000, 6100, 0.4, 1.8, 0.35);
+
+DO $$
+BEGIN
+  UPDATE catalog.lot_models SET triangle_count = 300001 WHERE lot_id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1';
+  RAISE EXCEPTION 'model above the triangle limit was accepted';
+EXCEPTION
+  WHEN check_violation THEN
+    NULL;
+END $$;
+
+DO $$
+BEGIN
+  UPDATE catalog.lot_models SET object_key = 'https://example.com/model.glb' WHERE lot_id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1';
+  RAISE EXCEPTION 'external model key was accepted';
+EXCEPTION
+  WHEN check_violation THEN
+    NULL;
+END $$;
+
 -- 0030: la compra inmediata siempre supera la salida y una sala cerrada dice por que cerro.
 DO $$
 BEGIN

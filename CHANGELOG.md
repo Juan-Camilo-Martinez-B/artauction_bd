@@ -6,6 +6,13 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+Esculturas en 3D (F16 de la plataforma).
+
+### Added
+
+- `0033_lot_models.sql`: `catalog.lot_models`, el modelo 3D (GLB) opcional de una obra tridimensional: clave del archivo bajo `lots/<obra>/model-*.glb`, bytes (hasta 30 MB), triángulos (de 1 000 a 300 000), vértices y la caja que lo envuelve. Se borra con la obra.
+- Comprobaciones en `assert.sql`: un modelo con demasiados triángulos o con una clave ajena a la obra.
+
 ### Added
 
 - `scripts/maintenance/delete-e2e-lots.sh` (`npm run cleanup:e2e`): borra las obras de la prueba de punta a punta y lo que depende de ellas, en una transacción que se aborta si hay pujas o ventas. No corre con `NODE_ENV=production`.

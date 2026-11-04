@@ -34,6 +34,7 @@ erDiagram
 | `auctions` | Una subasta por lote. Si cierra sin venta, la misma fila se reprograma. `ends_at` es el cierre vigente. `buy_now_price` (siempre mayor que la salida) es el precio de compra inmediata; `closed_by` dice si cerró por tiempo (`TIME`) o por compra inmediata (`BUY_NOW`), y solo existe en una sala `CERRADA`. |
 | `bids` | Puja con `idempotency_key` único. `kind` es `BID` o `BUY_NOW`: la compra inmediata se guarda como la puja ganadora. `winning_bid_id` en la subasta apunta a la puja ganadora. |
 | `transactions` | Como máximo una liquidación por subasta. Comprador y vendedor son distintos. |
+| `catalog.lot_models` | Modelo 3D (GLB) opcional de una obra tridimensional, uno por obra: la clave del archivo, bytes (hasta 30 MB), triángulos (de 1 000 a 300 000), vértices y la caja que lo envuelve. Lo valida catalog-service al registrarlo; los triángulos son evidencia de la auditoría, no fijan precio. |
 | `audit_summaries` | Score, rango de precio, veredicto y quién decidió (`RULES`, `AI` o `FALLBACK`). |
 | `follows` | Arista dirigida. Una cuenta no puede seguirse a sí misma. |
 
