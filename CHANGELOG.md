@@ -6,6 +6,14 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+## [0.16.0] - 2026-11-04
+
+Proveedor de IA neutral (F17 de la plataforma).
+
+### Changed
+
+- `0035_gallery_ai_source.sql`: el diseño de sala generado por IA pasa de `source = "gemini"` al valor neutro `"ai"` en `gallery.personal_galleries` (`suggested_config` y `applied_config`), porque la IA ahora la da Groq y el origen no debe depender del proveedor.
+
 ## [0.15.0] - 2026-11-04
 
 Esculturas en 3D (F16 de la plataforma): una obra tridimensional se muestra solo con su modelo 3D real.
