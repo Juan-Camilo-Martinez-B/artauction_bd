@@ -17,6 +17,10 @@ Varios idiomas (F18 de la plataforma): por ahora español e inglés.
   - `catalog.translation_requests`: la cola de traducción, con el mismo patrón que la de auditoría y una sola solicitud pendiente por obra.
 - Comprobaciones en `assert.sql`: un idioma no admitido, dos traducciones pendientes de la misma obra.
 
+### Changed
+
+- Seed `004_public_catalog.sql` y su generador: el título, el material y el contexto que vienen del Met (en inglés) van entre comillas «» dentro de la descripción en español. Así el traductor los deja tal cual y detecta bien el idioma de la ficha. El seed sigue con `ON CONFLICT DO NOTHING`: una base ya sembrada conserva el texto anterior.
+
 ## [0.16.0] - 2026-11-04
 
 Proveedor de IA neutral (F17 de la plataforma).

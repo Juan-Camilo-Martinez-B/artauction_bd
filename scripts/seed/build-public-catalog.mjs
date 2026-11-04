@@ -160,9 +160,12 @@ function classify(work) {
 function describe(work, label) {
   const artist = work.artistDisplayName || 'un artista no identificado';
   const when = work.objectDate ? `, datada en ${work.objectDate}` : '';
-  const culture = work.culture ? ` Contexto: ${work.culture}.` : '';
+  // Los datos del Met vienen en ingles: van entre comillas para que el
+  // traductor de fichas los deje tal cual y no mezcle idiomas en una frase.
+  const culture = work.culture ? ` Contexto: «${work.culture}».` : '';
+  const medium = work.medium ? `«${work.medium}»` : 'no especificado';
   return clip(
-    `${work.title} entra al catálogo como ${label} de ${artist}${when}. Material: ${work.medium || 'no especificado'}.${culture}`,
+    `«${work.title}» entra al catálogo como ${label} de ${artist}${when}. Material: ${medium}.${culture}`,
     500,
   );
 }
