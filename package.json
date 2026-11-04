@@ -1,7 +1,7 @@
 {
   "name": "@artauction/database",
   "private": true,
-  "version": "0.14.0",
+  "version": "0.15.0",
   "description": "Esquema versionado de PostgreSQL para ArtAuction AI: un esquema por microservicio.",
   "type": "module",
   "engines": {
