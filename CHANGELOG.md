@@ -6,6 +6,8 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+## [0.14.0] - 2026-11-03
+
 Ficha guardada de las obras compradas (F15 de la plataforma).
 
 ### Added
