@@ -6,6 +6,10 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+### Added
+
+- `scripts/maintenance/delete-e2e-lots.sh` (`npm run cleanup:e2e`): borra las obras de la prueba de punta a punta y lo que depende de ellas, en una transacción que se aborta si hay pujas o ventas. No corre con `NODE_ENV=production`.
+
 ## [0.14.0] - 2026-11-03
 
 Ficha guardada de las obras compradas (F15 de la plataforma).

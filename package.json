@@ -12,7 +12,8 @@
     "seed": "node scripts/seed/run.mjs",
     "backup:postgres": "bash scripts/backup/postgres.sh",
     "migrate": "bash scripts/migrate/apply.sh",
-    "roles": "bash scripts/roles/create-logins.sh"
+    "roles": "bash scripts/roles/create-logins.sh",
+    "cleanup:e2e": "bash scripts/maintenance/delete-e2e-lots.sh"
   },
   "dependencies": {
     "@prisma/client": "^6.16.3",
