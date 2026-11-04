@@ -2,15 +2,14 @@ import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+// Solo obras planas: una obra tridimensional exige su modelo 3D real y el
+// museo no lo publica, asi que esculturas, jarrones y relojes no se siembran.
 const searches = [
   { q: 'oil on canvas', want: 16 },
   { q: 'watercolor landscape', want: 6 },
-  { q: 'marble statue', want: 8 },
-  { q: 'bronze sculpture', want: 6 },
-  { q: 'porcelain vase', want: 6 },
-  { q: 'albumen photograph', want: 6 },
-  { q: 'gilt bronze clock', want: 4 },
+  { q: 'albumen photograph', want: 8 },
 ];
+const MIN_WORKS = 30;
 
 const sellerId = 'a0000000-0000-4000-8000-000000000002';
 const seen = new Set();
@@ -27,7 +26,7 @@ for (const search of searches) {
       continue;
     }
     const object = await readObject(objectId);
-    if (!object) {
+    if (!object || classify(object).representation === 'THREE_D') {
       continue;
     }
     seen.add(objectId);
@@ -36,7 +35,7 @@ for (const search of searches) {
   }
 }
 
-if (works.length < 50) {
+if (works.length < MIN_WORKS) {
   throw new Error(`Solo se reunieron ${works.length} obras con imagen.`);
 }
 
@@ -50,7 +49,7 @@ for (const work of works) {
   const lotId = uuid('c0000000', work.objectID);
   const imageId = uuid('c1000000', work.objectID);
   const kind = classify(work);
-  lines.push(`INSERT INTO lots (
+  lines.push(`INSERT INTO catalog.lots (
   id, seller_id, title, description, artist_name, creation_year, materials,
   width_cm, height_cm, depth_cm, provenance, representation_kind, status, visibility,
   authenticity_score, suggested_price_min, suggested_price_max, currency
@@ -74,7 +73,7 @@ for (const work of works) {
   ${money(work.objectID, 900)},
   'USD'
 ) ON CONFLICT (id) DO NOTHING;`);
-  lines.push(`INSERT INTO lot_images (id, lot_id, object_key, position, width_px, height_px)
+  lines.push(`INSERT INTO catalog.lot_images (id, lot_id, object_key, position, width_px, height_px)
 VALUES (
   '${imageId}',
   '${lotId}',
@@ -83,8 +82,8 @@ VALUES (
   NULL,
   NULL
 ) ON CONFLICT (id) DO NOTHING;`);
-  lines.push(`INSERT INTO lot_categories (lot_id, category_id, is_primary)
-SELECT '${lotId}', id, true FROM categories WHERE slug = '${kind.slug}'
+  lines.push(`INSERT INTO catalog.lot_categories (lot_id, category_id, is_primary)
+SELECT '${lotId}', id, true FROM catalog.categories WHERE slug = '${kind.slug}'
 ON CONFLICT DO NOTHING;`);
   lines.push('');
 }
