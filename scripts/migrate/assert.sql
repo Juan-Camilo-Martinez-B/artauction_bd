@@ -84,6 +84,19 @@ EXCEPTION
     NULL;
 END $$;
 
+-- 0034: una venta anulada deja asientos REEMBOLSO y ANULACION; un tipo desconocido, no.
+INSERT INTO wallet.wallet_entries (user_id, kind, coins)
+VALUES ('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1', 'REEMBOLSO', 300), ('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1', 'ANULACION', 270);
+
+DO $$
+BEGIN
+  INSERT INTO wallet.wallet_entries (user_id, kind, coins) VALUES ('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1', 'REGALO', 10);
+  RAISE EXCEPTION 'unknown wallet entry kind was accepted';
+EXCEPTION
+  WHEN check_violation THEN
+    NULL;
+END $$;
+
 -- 0030: la compra inmediata siempre supera la salida y una sala cerrada dice por que cerro.
 DO $$
 BEGIN

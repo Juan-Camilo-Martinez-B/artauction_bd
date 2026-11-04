@@ -12,6 +12,12 @@ Esculturas en 3D (F16 de la plataforma).
 
 - `0033_lot_models.sql`: `catalog.lot_models`, el modelo 3D (GLB) opcional de una obra tridimensional: clave del archivo bajo `lots/<obra>/model-*.glb`, bytes (hasta 30 MB), triángulos (de 1 000 a 300 000), vértices y la caja que lo envuelve. Se borra con la obra.
 - Comprobaciones en `assert.sql`: un modelo con demasiados triángulos o con una clave ajena a la obra.
+- `0034_wallet_refunds.sql`: asientos `REEMBOLSO` (devuelve al comprador lo que pagó) y `ANULACION` (descuenta al vendedor lo que cobró) para anular una venta sin borrar movimientos del bolsillo.
+- `scripts/maintenance/delete-unmodeled-3d-lots.sh` (`npm run cleanup:unmodeled-3d`): retira las obras tridimensionales sin modelo 3D y lo que depende de ellas, anula sus ventas con reembolso y libera las retenciones de pujas vivas. Sin `--apply` es una vista previa que se revierte.
+
+### Changed
+
+- La semilla del catálogo público ya no crea obras tridimensionales: una escultura exige su modelo 3D real y el museo no lo publica. Quedan las 30 obras planas; `build-public-catalog.mjs` descarta las tridimensionales y escribe las tablas con su esquema.
 
 ### Added
 

@@ -13,7 +13,8 @@
     "backup:postgres": "bash scripts/backup/postgres.sh",
     "migrate": "bash scripts/migrate/apply.sh",
     "roles": "bash scripts/roles/create-logins.sh",
-    "cleanup:e2e": "bash scripts/maintenance/delete-e2e-lots.sh"
+    "cleanup:e2e": "bash scripts/maintenance/delete-e2e-lots.sh",
+    "cleanup:unmodeled-3d": "bash scripts/maintenance/delete-unmodeled-3d-lots.sh"
   },
   "dependencies": {
     "@prisma/client": "^6.16.3",
