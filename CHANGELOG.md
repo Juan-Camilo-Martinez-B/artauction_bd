@@ -14,6 +14,7 @@ Esculturas en 3D (F16 de la plataforma).
 - Comprobaciones en `assert.sql`: un modelo con demasiados triángulos o con una clave ajena a la obra.
 - `0034_wallet_refunds.sql`: asientos `REEMBOLSO` (devuelve al comprador lo que pagó) y `ANULACION` (descuenta al vendedor lo que cobró) para anular una venta sin borrar movimientos del bolsillo.
 - `scripts/maintenance/delete-unmodeled-3d-lots.sh` (`npm run cleanup:unmodeled-3d`): retira las obras tridimensionales sin modelo 3D y lo que depende de ellas, anula sus ventas con reembolso y libera las retenciones de pujas vivas. Sin `--apply` es una vista previa que se revierte.
+- `scripts/maintenance/reprice-sample-3d.sh` (`npm run reprice:sample-3d`): corrige el precio de las obras 3D de muestra que la auditoría local dejó con el rango genérico (400-800) y recalcula sus salas programadas sin pujas. Sin `--apply` es una vista previa.
 
 ### Changed
 
