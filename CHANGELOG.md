@@ -6,6 +6,12 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+Ficha guardada de las obras compradas (F15 de la plataforma).
+
+### Added
+
+- `0032_purchased_sheet.sql`: `gallery.items.sheet` (JSONB), la copia fija de la ficha de una obra ganada, con el precio pagado, la fecha y si fue por subasta o compra inmediata. Solo una obra `GANADA` puede tenerla.
+
 ## [0.13.0] - 2026-11-03
 
 Compra inmediata en las subastas (F14 de la plataforma).
