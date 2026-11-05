@@ -6,6 +6,10 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+### Changed
+
+- `0037_everyone_can_publish`: las cuentas `USER` pasan a `SELLER`, porque toda cuenta puede publicar. Las semillas `leo` y `nora` también.
+
 ### Security
 
 - `overrides` fuerza `deepmerge-ts` 8: Prisma 6 trae una versión con una vulnerabilidad alta. Se puede quitar al pasar a Prisma 7.
