@@ -19,7 +19,7 @@ Varios idiomas (F18 de la plataforma): por ahora español e inglés.
 
 ### Changed
 
-- Seed `004_public_catalog.sql` y su generador: el título, el material y el contexto que vienen del Met (en inglés) van entre comillas «» dentro de la descripción en español. Así el traductor los deja tal cual y detecta bien el idioma de la ficha. El seed sigue con `ON CONFLICT DO NOTHING`: una base ya sembrada conserva el texto anterior.
+- Seed `004_public_catalog.sql` y su generador: el título, el artista, la fecha, el material y la cultura que vienen del Met (en inglés) van entre comillas «» dentro de la descripción en español. Así el traductor los deja tal cual y detecta bien el idioma de la ficha. La etiqueta `Contexto:` pasa a `Cultura:`: con la primera, Opus-MT pierde lo citado. El seed sigue con `ON CONFLICT DO NOTHING`: una base ya sembrada conserva el texto anterior.
 
 ## [0.16.0] - 2026-11-04
 
