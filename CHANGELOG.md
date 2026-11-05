@@ -6,6 +6,8 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+## [0.17.0] - 2026-11-04
+
 Varios idiomas (F18 de la plataforma): por ahora español e inglés.
 
 ### Added
