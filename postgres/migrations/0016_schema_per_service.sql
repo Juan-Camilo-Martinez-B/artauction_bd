@@ -135,6 +135,8 @@ BEGIN
 END $$;
 
 -- pg-boss administra sus propias tablas: audit_rw es dueño de la cola.
+-- Sin ser superusuario (Supabase), ceder un objeto exige poder asumir el rol.
+GRANT audit_rw TO CURRENT_USER;
 ALTER SCHEMA audit_queue OWNER TO audit_rw;
 
 -- Vistas de compatibilidad para el monolito (se eliminan en contract).
