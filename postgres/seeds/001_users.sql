@@ -26,7 +26,7 @@ VALUES
     'leo@artauction.local',
     '$argon2id$v=19$m=19456,p=1,t=2$mxTU3PdFuf40kJYM6D8dRw$hznV7Iomd2muNGDNRtJ/UldOILr7eNGYbiifSHZCegg',
     'Leo Postor',
-    'USER',
+    'SELLER',
     'PUBLIC',
     'Sigue salas en vivo y guarda lo que gana.'
   ),
@@ -35,7 +35,7 @@ VALUES
     'nora@artauction.local',
     '$argon2id$v=19$m=19456,p=1,t=2$mxTU3PdFuf40kJYM6D8dRw$hznV7Iomd2muNGDNRtJ/UldOILr7eNGYbiifSHZCegg',
     'Nora Coleccionista',
-    'USER',
+    'SELLER',
     'PRIVATE',
     'Perfil privado: su galería no aparece en el catálogo público.'
   )
