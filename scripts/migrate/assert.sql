@@ -84,6 +84,42 @@ EXCEPTION
     NULL;
 END $$;
 
+-- 0036: idiomas admitidos, una sola traduccion pendiente por obra y traducciones que caen con la obra.
+DO $$
+BEGIN
+  UPDATE identity.users SET locale = 'fr' WHERE id = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1';
+  RAISE EXCEPTION 'unsupported account locale was accepted';
+EXCEPTION
+  WHEN check_violation THEN
+    NULL;
+END $$;
+
+INSERT INTO catalog.translation_requests (lot_id, source_hash)
+VALUES ('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1', repeat('a', 64));
+
+DO $$
+BEGIN
+  INSERT INTO catalog.translation_requests (lot_id, source_hash)
+  VALUES ('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1', repeat('b', 64));
+  RAISE EXCEPTION 'second pending translation for the same lot was accepted';
+EXCEPTION
+  WHEN unique_violation THEN
+    NULL;
+END $$;
+
+INSERT INTO catalog.lot_translations (lot_id, locale, title, description, materials, source_hash, model)
+VALUES ('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1', 'en', 'Portrait', 'Oil portrait.', 'Oil on canvas', repeat('a', 64), 'opus-mt-es-en');
+
+DO $$
+BEGIN
+  INSERT INTO catalog.lot_translations (lot_id, locale, title, description, materials, source_hash, model)
+  VALUES ('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1', 'de', 'Bild', 'Bild.', 'Ol', repeat('a', 64), 'x');
+  RAISE EXCEPTION 'unsupported translation locale was accepted';
+EXCEPTION
+  WHEN check_violation THEN
+    NULL;
+END $$;
+
 -- 0034: una venta anulada deja asientos REEMBOLSO y ANULACION; un tipo desconocido, no.
 INSERT INTO wallet.wallet_entries (user_id, kind, coins)
 VALUES ('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1', 'REEMBOLSO', 300), ('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1', 'ANULACION', 270);

@@ -206,6 +206,41 @@ model lot_models {
   @@schema("catalog")
 }
 
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model lot_translations {
+  lot_id      String   @db.Uuid
+  locale      String
+  title       String
+  description String
+  materials   String
+  provenance  String?
+  source_hash String
+  model       String
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  lots        lots     @relation(fields: [lot_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([lot_id, locale])
+  @@schema("catalog")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model translation_requests {
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  lot_id       String    @db.Uuid
+  source_hash  String
+  status       String    @default("PENDIENTE")
+  attempts     Int       @default(0)
+  available_at DateTime  @default(now()) @db.Timestamptz(6)
+  lease_until  DateTime? @db.Timestamptz(6)
+  last_error   String?
+  created_at   DateTime  @default(now()) @db.Timestamptz(6)
+  completed_at DateTime? @db.Timestamptz(6)
+  lots         lots      @relation(fields: [lot_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([available_at], map: "translation_requests_due_idx")
+  @@schema("catalog")
+}
+
 model lot_reviews {
   id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   lot_id     String   @db.Uuid
@@ -239,30 +274,33 @@ model lot_images {
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model lots {
-  id                  String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  seller_id           String           @db.Uuid
-  title               String
-  description         String
-  artist_name         String?
-  creation_year       Int?
-  materials           String
-  width_cm            Decimal?         @db.Decimal(8, 2)
-  height_cm           Decimal?         @db.Decimal(8, 2)
-  depth_cm            Decimal?         @db.Decimal(8, 2)
-  provenance          String?
-  status              String           @default("BORRADOR")
-  visibility          String           @default("PRIVATE")
-  authenticity_score  Int?             @db.SmallInt
-  suggested_price_min Decimal?         @db.Decimal(12, 2)
-  suggested_price_max Decimal?         @db.Decimal(12, 2)
-  currency            String           @default("USD") @db.Char(3)
-  created_at          DateTime         @default(now()) @db.Timestamptz(6)
-  updated_at          DateTime         @default(now()) @db.Timestamptz(6)
-  representation_kind String?
-  lot_categories      lot_categories[]
-  lot_images          lot_images[]
-  lot_reviews         lot_reviews[]
-  lot_models          lot_models?
+  id                   String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  seller_id            String                 @db.Uuid
+  title                String
+  description          String
+  artist_name          String?
+  creation_year        Int?
+  materials            String
+  width_cm             Decimal?               @db.Decimal(8, 2)
+  height_cm            Decimal?               @db.Decimal(8, 2)
+  depth_cm             Decimal?               @db.Decimal(8, 2)
+  provenance           String?
+  status               String                 @default("BORRADOR")
+  visibility           String                 @default("PRIVATE")
+  authenticity_score   Int?                   @db.SmallInt
+  suggested_price_min  Decimal?               @db.Decimal(12, 2)
+  suggested_price_max  Decimal?               @db.Decimal(12, 2)
+  currency             String                 @default("USD") @db.Char(3)
+  created_at           DateTime               @default(now()) @db.Timestamptz(6)
+  updated_at           DateTime               @default(now()) @db.Timestamptz(6)
+  representation_kind  String?
+  source_locale        String?
+  lot_categories       lot_categories[]
+  lot_images           lot_images[]
+  lot_reviews          lot_reviews[]
+  lot_models           lot_models?
+  lot_translations     lot_translations[]
+  translation_requests translation_requests[]
 
   @@index([seller_id])
   @@index([status])
@@ -356,6 +394,7 @@ model users {
   avatar_url         String?
   created_at         DateTime @default(now()) @db.Timestamptz(6)
   updated_at         DateTime @default(now()) @db.Timestamptz(6)
+  locale             String   @default("es")
 
   @@schema("identity")
 }
