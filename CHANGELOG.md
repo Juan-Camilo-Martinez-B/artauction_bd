@@ -6,6 +6,10 @@ Cada tag de este repositorio es un esquema que el backend puede fijar. Un cambio
 
 ## [Unreleased]
 
+### Added
+
+- `0038_public_galleries`: `gallery.items.preview_url` para las vistas previas de Explorar, e índice de las obras públicas por dueña. Las obras publicadas en el catálogo pasan a verse en la galería pública de quien las publicó.
+
 ### Changed
 
 - `0037_everyone_can_publish`: las cuentas `USER` pasan a `SELLER`, porque toda cuenta puede publicar. Las semillas `leo` y `nora` también.
